@@ -1,5 +1,7 @@
 import { useQuery, gql } from '@apollo/client';
 import Link from 'next/link';
+import { Row, Col } from 'react-bootstrap';
+import styled from 'styled-components';
 
 const HEADER_SETTINGS = gql`
   query GetMainMenu {
@@ -25,21 +27,43 @@ const Header = () => {
 
   const menuItems = data.menus.nodes[0].menuItems.nodes;
   return (
-    <ul>
-      {menuItems.map((item) => (
-        <li key={item.id}>
-          <Link href={item.path}>
-            <a>{item.label}</a>
-          </Link>
-        </li>
-      ))}
-      <li>
-        <Link href="/properties/single_property">
-          <a>Single Property</a>
-        </Link>
-      </li>
-    </ul>
+    <Row>
+      <Col>
+        <Nav>
+          <MenuList>
+            {menuItems.map((item) => (
+              <MenuItem key={item.id}>
+                <Link href={item.path}>
+                  <a>{item.label}</a>
+                </Link>
+              </MenuItem>
+            ))}
+            <MenuItem>
+              <Link href="/properties/single_property">
+                <a>Single Property</a>
+              </Link>
+            </MenuItem>
+          </MenuList>
+        </Nav>
+      </Col>
+    </Row>
   );
 };
+
+const Nav = styled.nav``;
+
+const MenuList = styled.ul`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+const MenuItem = styled.li`
+  list-style: none;
+
+  a:hover {
+    text-decoration: none;
+  }
+`;
 
 export default Header;
