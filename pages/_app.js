@@ -1,14 +1,11 @@
-import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
-import 'bootstrap/dist/css/bootstrap.min.css';
-
-const client = new ApolloClient({
-  uri: 'http://no-client-ppk.local/graphql',
-  cache: new InMemoryCache(),
-});
+import { ApolloProvider } from '@apollo/client';
+import { useApollo } from '../lib/apolloClient';
+import '../styles/main.scss';
 
 function MyApp({ Component, pageProps }) {
+  const apolloClient = useApollo(pageProps);
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <Component {...pageProps} />
     </ApolloProvider>
   );
