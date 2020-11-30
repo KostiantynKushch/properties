@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { HEADER_SETTINGS } from '../lib/Queries';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import ActiveLink from './ActiveLink';
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -26,6 +27,8 @@ const Header = () => {
   });
   const [isOpenHamb, setOpenHamb] = useState(false);
 
+  const { pathname } = useRouter();
+
   const debouncedHandleResize = debounce(() => {
     setDimensions({
       height: window.innerHeight,
@@ -42,6 +45,12 @@ const Header = () => {
       window.removeEventListener('resize', debouncedHandleResize);
     };
   }, []);
+
+  useEffect(() => {
+    if (dimensions.width <= 768) {
+      if (isOpenHamb) setOpenHamb(false);
+    }
+  }, [pathname]);
 
   const { loading, error, data } = useQuery(HEADER_SETTINGS);
   if (loading) return <p>Loader ...</p>;
@@ -141,17 +150,17 @@ const MobileMenu = styled.nav`
   position: relative;
   .show {
     background: #fff;
-    top: 0;
+    transform: translateY(100vh);
   }
 `;
 
 const MobileMenuContainer = styled.div`
   position: absolute;
   top: -100vh;
-  left: 0;
+  left: -15px;
   height: calc(100vh - 80px);
-  width: 100%;
-  transition: all 0.3s ease;
+  width: 100vw;
+  transition: transform 0.5s ease;
 `;
 
 const MenuList = styled.ul`

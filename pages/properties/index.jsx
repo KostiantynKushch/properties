@@ -2,7 +2,7 @@ import { useQuery } from '@apollo/client';
 import { PROPERTIES_ARCHIVE_PAGE } from '../../lib/Queries';
 import { initializeApollo, addApolloState } from '../../lib/apolloClient';
 import parse from 'html-react-parser';
-import Layout from '../../components/Layout';
+import { Container } from 'react-bootstrap';
 import PageHead from '../../components/PageHead';
 
 const properties = () => {
@@ -13,12 +13,12 @@ const properties = () => {
   const { title, content } = data.pages.nodes[0];
 
   return (
-    <Layout>
+    <Container>
       <PageHead page={title} />
 
       <h1>{title}</h1>
       {parse(content)}
-    </Layout>
+    </Container>
   );
 };
 

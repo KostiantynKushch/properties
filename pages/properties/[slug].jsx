@@ -1,10 +1,10 @@
-import Layout from '../../components/Layout';
+import { Container } from 'react-bootstrap';
 
 const properties = () => {
   return (
-    <Layout>
+    <Container>
       <h1>Single Property</h1>
-    </Layout>
+    </Container>
   );
 };
 
