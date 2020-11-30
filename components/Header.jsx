@@ -4,7 +4,7 @@ import { HEADER_SETTINGS } from '../lib/Queries';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import Link from 'next/link';
 import ActiveLink from './ActiveLink';
-import { Row, Col } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Sling as Hamburger } from 'hamburger-react';
 
@@ -49,7 +49,7 @@ const Header = () => {
 
   const menuItems = data.menus.nodes[0].menuItems.nodes;
   return (
-    <>
+    <Container fluid="xl">
       <HeaderContainer>
         <SRow>
           <LogoCol>
@@ -108,7 +108,7 @@ const Header = () => {
           </MobileMenuContainer>
         </MobileMenu>
       )}
-    </>
+    </Container>
   );
 };
 
