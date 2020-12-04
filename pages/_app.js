@@ -2,6 +2,7 @@ import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '../lib/apolloClient';
 import '../styles/main.scss';
 import Header from '../components/Header';
+import Footer from '../components/Footer';
 
 function MyApp({ Component, pageProps }) {
   const apolloClient = useApollo(pageProps);
@@ -9,7 +10,7 @@ function MyApp({ Component, pageProps }) {
     <ApolloProvider client={apolloClient}>
       <Header />
       <Component {...pageProps} />
-      <p>Footer</p>
+      <Footer />
     </ApolloProvider>
   );
 }
