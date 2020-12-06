@@ -2,7 +2,6 @@ import PageHead from '../components/PageHead';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import { HOME_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
-import parse from 'html-react-parser';
 import { Container } from 'react-bootstrap';
 import styled from 'styled-components';
 

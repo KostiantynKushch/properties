@@ -57,6 +57,7 @@ const Header = () => {
   if (error) return <p>Error :</p>;
 
   const menuItems = data.menus.nodes[0].menuItems.nodes;
+  const { logo } = data.pages.nodes[0].acfOptions;
   return (
     <Container fluid="xl">
       <HeaderContainer>
@@ -64,7 +65,7 @@ const Header = () => {
           <LogoCol>
             <Link href="/">
               <a>
-                <img src="/logo_dark.png" alt="" />
+                <img src={logo.mediaItemUrl} alt="Logo" />
               </a>
             </Link>
           </LogoCol>
