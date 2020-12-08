@@ -54,7 +54,7 @@ const Header = () => {
 
   const { loading, error, data } = useQuery(HEADER_SETTINGS);
   if (loading) return <p>Loader ...</p>;
-  if (error) return <p>Error :</p>;
+  if (error) return <p>Error : </p>;
 
   const menuItems = data.menus.nodes[0].menuItems.nodes;
   const { logo } = data.pages.nodes[0].acfOptions;
