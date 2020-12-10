@@ -161,6 +161,7 @@ const MobileMenuContainer = styled.div`
   left: -15px;
   height: calc(100vh - 80px);
   width: 100vw;
+  z-index: 3;
   transition: transform 0.5s ease;
 `;
 
