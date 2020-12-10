@@ -4,6 +4,9 @@ import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { getPhoneMask } from '../lib/utils';
 
 const Footer = () => {
   const { loading, error, data } = useQuery(OPTIONS_PAGE);
@@ -17,7 +20,6 @@ const Footer = () => {
     tagline,
     copyrighting,
   } = data.pages.nodes[0].acfOptions;
-
   return (
     <StFooter>
       <Container fluid="xl">
@@ -51,7 +53,12 @@ const Footer = () => {
                     <div className="link-wraper" key={index}>
                       <Link href={linkItem.link.url}>
                         <a className="footer-navigation__link">
-                          <span></span> {linkItem.link.title}
+                          <FontAwesomeIcon
+                            icon={faAngleRight}
+                            className="footer-navigation__arrow"
+                          />
+
+                          {linkItem.link.title}
                         </a>
                       </Link>
                     </div>
@@ -68,7 +75,9 @@ const Footer = () => {
                   <p>{contactInfo.address}</p>
                 </div>
                 <div className="contact-info__phone">
-                  <a href={`tel:${contactInfo.phone}`}>{contactInfo.phone}</a>
+                  <a href={`tel:${contactInfo.phone}`}>
+                    Phone: {getPhoneMask(`${contactInfo.phone}`)}
+                  </a>
                 </div>
                 <div className="contact-info__email">
                   <a href={`mailto:${contactInfo.email}`}>
@@ -131,6 +140,9 @@ const StFooter = styled.footer`
     }
     &__link {
       color: inherit;
+    }
+    &__arrow {
+      margin-right: 15px;
     }
   }
   .contact-info {
