@@ -1,6 +1,7 @@
 import { useQuery } from '@apollo/client';
 import { OPTIONS_PAGE } from '../lib/Queries';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
+import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
 
 const Footer = () => {
@@ -13,14 +14,17 @@ const Footer = () => {
     contactInfo,
     navigation,
     tagline,
+    copyrighting,
   } = data.pages.nodes[0].acfOptions;
 
-  console.log(navigation);
-
   return (
-    <Container>
+    <Container fluid="xl">
       <div className="logo">
-        <img src={logo.mediaItemUrl} alt="" />
+        <Link href="/">
+          <a>
+            <img src={logo.mediaItemUrl} alt="Logo" />
+          </a>
+        </Link>
       </div>
       <div className="tag-line">
         <p>{tagline}</p>
@@ -32,7 +36,7 @@ const Footer = () => {
       </div>
       <div className="contact-info">
         <div className="contact-info__email">
-          <p>{contactInfo.email}</p>
+          <a href={`mailto:${contactInfo.email}`}>{contactInfo.email}</a>
         </div>
       </div>
       <div className="contact-info">
@@ -42,7 +46,7 @@ const Footer = () => {
       </div>
       <div className="contact-info">
         <div className="contact-info__phone">
-          <p>{contactInfo.phone}</p>
+          <a href={`tel:${contactInfo.phone}`}>{contactInfo.phone}</a>
         </div>
       </div>
       <div className="footer-navigation">
@@ -53,13 +57,21 @@ const Footer = () => {
             <div className="footer-navigation__links">
               {item.columns.navigationLinks.map((linkItem, index) => (
                 <div className="link" key={index}>
-                  <p>{linkItem.link.title}</p>
+                  <Link href={linkItem.link.url}>
+                    <a>{linkItem.link.title}</a>
+                  </Link>
                 </div>
               ))}
             </div>
             <hr></hr>
           </div>
         ))}
+      </div>
+      <div className="footer-copyrighting">
+        <p>
+          <span>@{new Date().getFullYear()} </span>
+          {copyrighting}
+        </p>
       </div>
     </Container>
   );
