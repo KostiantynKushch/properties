@@ -15,6 +15,13 @@ export default function Home() {
   const { heroTitle, citiesSection } = acfHomeFields;
   const citiesStat = data.categories.nodes;
   console.log(citiesStat);
+
+  const getListings = (slug = null) => {
+    if (!slug) return;
+    const cityCount = citiesStat.filter((item) => item.slug === slug);
+    return cityCount.length === 0 ? null : cityCount[0].count;
+  };
+
   return (
     <>
       <PageHead page={title} />
@@ -57,7 +64,9 @@ export default function Home() {
                         alt={city.title}
                       />
                       <h4 className="city__title">{city.title}</h4>
-                      <p className="city__listings">Listings</p>
+                      <p className="city__listings">
+                        {getListings(city.slug) || '0'} Listings
+                      </p>
                       <div className="city__exerpt">{parse(city.excerpt)}</div>
                     </div>
                   </Col>
