@@ -59,66 +59,68 @@ const Header = () => {
   const menuItems = data.menus.nodes[0].menuItems.nodes;
   const { logo } = data.pages.nodes[0].acfOptions;
   return (
-    <Container fluid="xl">
-      <HeaderContainer>
-        <SRow>
-          <LogoCol>
-            <Link href="/">
-              <a>
-                <img src={logo.mediaItemUrl} alt="Logo" />
-              </a>
-            </Link>
-          </LogoCol>
-          <Col>
-            <Nav
-              style={
-                dimensions.width <= 768
-                  ? { justifyContent: 'flex-end', marginRight: '-30px' }
-                  : {}
-              }
-            >
-              {dimensions.width > 768 && (
-                <MenuList>
-                  {menuItems.map((item) => (
-                    <MenuItem key={item.id}>
-                      <ActiveLink
-                        activeClassName="active-link"
-                        href={item.path}
-                      >
-                        <a>{item.label}</a>
-                      </ActiveLink>
-                    </MenuItem>
-                  ))}
-                </MenuList>
-              )}
+    <header>
+      <Container fluid="xl">
+        <HeaderContainer>
+          <SRow>
+            <LogoCol>
+              <Link href="/">
+                <a>
+                  <img src={logo.mediaItemUrl} alt="Logo" />
+                </a>
+              </Link>
+            </LogoCol>
+            <Col>
+              <Nav
+                style={
+                  dimensions.width <= 768
+                    ? { justifyContent: 'flex-end', marginRight: '-30px' }
+                    : {}
+                }
+              >
+                {dimensions.width > 768 && (
+                  <MenuList>
+                    {menuItems.map((item) => (
+                      <MenuItem key={item.id}>
+                        <ActiveLink
+                          activeClassName="active-link"
+                          href={item.path}
+                        >
+                          <a>{item.label}</a>
+                        </ActiveLink>
+                      </MenuItem>
+                    ))}
+                  </MenuList>
+                )}
 
-              {dimensions.width <= 768 && (
-                <Hamburger
-                  toggled={isOpenHamb}
-                  toggle={setOpenHamb}
-                  color="#77838f"
-                />
-              )}
-            </Nav>
-          </Col>
-        </SRow>
-      </HeaderContainer>
-      {dimensions.width <= 768 && (
-        <MobileMenu>
-          <MobileMenuContainer className={isOpenHamb ? 'show' : null}>
-            <MobileMenuList>
-              {menuItems.map((item) => (
-                <MenuItem key={item.id}>
-                  <ActiveLink activeClassName="active-link" href={item.path}>
-                    <a>{item.label}</a>
-                  </ActiveLink>
-                </MenuItem>
-              ))}
-            </MobileMenuList>
-          </MobileMenuContainer>
-        </MobileMenu>
-      )}
-    </Container>
+                {dimensions.width <= 768 && (
+                  <Hamburger
+                    toggled={isOpenHamb}
+                    toggle={setOpenHamb}
+                    color="#77838f"
+                  />
+                )}
+              </Nav>
+            </Col>
+          </SRow>
+        </HeaderContainer>
+        {dimensions.width <= 768 && (
+          <MobileMenu>
+            <MobileMenuContainer className={isOpenHamb ? 'show' : null}>
+              <MobileMenuList>
+                {menuItems.map((item) => (
+                  <MenuItem key={item.id}>
+                    <ActiveLink activeClassName="active-link" href={item.path}>
+                      <a>{item.label}</a>
+                    </ActiveLink>
+                  </MenuItem>
+                ))}
+              </MobileMenuList>
+            </MobileMenuContainer>
+          </MobileMenu>
+        )}
+      </Container>
+    </header>
   );
 };
 

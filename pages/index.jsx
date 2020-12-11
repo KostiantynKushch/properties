@@ -2,7 +2,8 @@ import PageHead from '../components/PageHead';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import { HOME_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
-import { Container } from 'react-bootstrap';
+import parse from 'html-react-parser';
+import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
 export default function Home() {
@@ -10,20 +11,60 @@ export default function Home() {
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;
 
-  const { title, acfTestCustomField } = data.pages.nodes[0];
-
+  const { title, acfHomeFields } = data.pages.nodes[0];
+  const { heroTitle, citiesSection } = acfHomeFields;
   return (
     <>
       <PageHead page={title} />
-      <HeroSection>
-        <Container>
-          <HeroInner>
-            <div className="title">
-              <h1>{acfTestCustomField.heroTitle}</h1>
+      <main>
+        <HeroSection>
+          <Container>
+            <HeroInner>
+              <div className="title">
+                <h1>{heroTitle}</h1>
+              </div>
+            </HeroInner>
+          </Container>
+        </HeroSection>
+        <FeaturedCities className="featured-cities">
+          <Container>
+            <Row>
+              <Col>
+                <div className="featured-cities__header">
+                  <div className="section-tag">{citiesSection.tag}</div>
+                  <h3 className="featured-cities__title">
+                    {citiesSection.title}
+                  </h3>
+                  <div className="featured-cities__short-desc">
+                    <p>{citiesSection.shortDescription}</p>
+                  </div>
+                </div>
+              </Col>
+            </Row>
+
+            <div className="featured-cities__cities cities">
+              <Row>
+                {citiesSection.featuredCities.map((city) => (
+                  <Col lg="3" key={city.id}>
+                    <div className="city">
+                      <img
+                        src={
+                          city.featuredImage.node.mediaDetails.sizes[0]
+                            .sourceUrl
+                        }
+                        alt={city.title}
+                      />
+                      <h4 className="city__title">{city.title}</h4>
+                      <p className="city__listings">Listings</p>
+                      <div className="city__exerpt">{parse(city.excerpt)}</div>
+                    </div>
+                  </Col>
+                ))}
+              </Row>
             </div>
-          </HeroInner>
-        </Container>
-      </HeroSection>
+          </Container>
+        </FeaturedCities>
+      </main>
     </>
   );
 }
@@ -55,5 +96,13 @@ const HeroInner = styled.div`
   .title {
     max-width: 555px;
     text-align: center;
+  }
+`;
+
+const FeaturedCities = styled.div`
+  .city {
+    img {
+      max-width: 263px;
+    }
   }
 `;
