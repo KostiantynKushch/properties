@@ -14,7 +14,6 @@ export default function Home() {
   const { title, acfHomeFields } = data.pages.nodes[0];
   const { heroTitle, citiesSection } = acfHomeFields;
   const citiesStat = data.categories.nodes;
-  console.log(citiesStat);
 
   const getListings = (slug = null) => {
     if (!slug) return;
@@ -40,7 +39,9 @@ export default function Home() {
             <Row>
               <Col>
                 <div className="featured-cities__header">
-                  <div className="section-tag">{citiesSection.tag}</div>
+                  <SectionTag>
+                    <span>{citiesSection.tag}</span>
+                  </SectionTag>
                   <h3 className="featured-cities__title">
                     {citiesSection.title}
                   </h3>
@@ -54,7 +55,7 @@ export default function Home() {
             <div className="featured-cities__cities cities">
               <Row>
                 {citiesSection.featuredCities.map((city) => (
-                  <Col lg="3" key={city.id}>
+                  <Col md="6" lg="3" key={city.id}>
                     <div className="city">
                       <img
                         src={
@@ -111,9 +112,53 @@ const HeroInner = styled.div`
 `;
 
 const FeaturedCities = styled.div`
-  .city {
-    img {
-      max-width: 263px;
+  padding: 40px 0;
+  text-align: center;
+  color: #77838f;
+  .featured-cities {
+    &__header {
+      margin-bottom: 30px;
     }
+    &__title {
+      color: #1e2022;
+    }
+  }
+  .city {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img {
+      width: 100%;
+      max-width: 263px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: 15px;
+    }
+    &__title {
+      color: #1e2022;
+    }
+    &__listings {
+      color: #f45757;
+      margin-bottom: 10px;
+    }
+    &__exerpt {
+      max-width: 212px;
+    }
+  }
+`;
+
+const SectionTag = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  span {
+    text-align: center;
+    background: #ffeeee;
+    color: #f45757;
+    padding: 5px 20px;
+    border-radius: 16px;
+    margin-bottom: 15px;
   }
 `;
