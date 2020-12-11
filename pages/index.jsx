@@ -112,6 +112,10 @@ const HeroInner = styled.div`
 `;
 
 const FeaturedCities = styled.div`
+  min-height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 40px 0;
   text-align: center;
   color: #77838f;
