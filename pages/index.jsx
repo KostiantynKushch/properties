@@ -13,6 +13,8 @@ export default function Home() {
 
   const { title, acfHomeFields } = data.pages.nodes[0];
   const { heroTitle, citiesSection } = acfHomeFields;
+  const citiesStat = data.categories.nodes;
+  console.log(citiesStat);
   return (
     <>
       <PageHead page={title} />
