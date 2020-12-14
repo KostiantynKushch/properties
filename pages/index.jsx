@@ -32,8 +32,6 @@ export default function Home() {
     featuredProperties,
   } = properties;
 
-  console.log(download);
-
   const getListings = (slug = null) => {
     if (!slug) return;
     const cityCount = citiesStat.filter((item) => item.slug === slug);
@@ -216,6 +214,37 @@ export default function Home() {
             </div>
           </Container>
         </FeaturedProperties>
+        <Download
+          style={{
+            background: `url(${download.background.sourceUrl}) no-repeat`,
+            backgroundSize: 'cover',
+          }}
+        >
+          <Container>
+            <Row>
+              <Col>
+                <div className="download">
+                  <SectionTagDark className="tag">
+                    <span>{download.tag}</span>
+                  </SectionTagDark>
+                  <h2 className="download__title">{download.title}</h2>
+                  <div className="download__buttons">
+                    {download.downloadButtons.map((button) => (
+                      <div className="download__btn" key={button.buttonIcon.id}>
+                        <a href={button.buttonLink} target="_blank">
+                          <img
+                            src={button.buttonIcon.sourceUrl}
+                            alt={button.buttonIcon.altText}
+                          />
+                        </a>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </Col>
+            </Row>
+          </Container>
+        </Download>
       </main>
     </>
   );
@@ -251,7 +280,7 @@ const HeroInner = styled.div`
   }
 `;
 
-const FeaturedCities = styled.div`
+const Section = styled.div`
   min-height: 65vh;
   display: flex;
   flex-direction: column;
@@ -262,6 +291,10 @@ const FeaturedCities = styled.div`
   }
   text-align: center;
   color: #77838f;
+`;
+
+const FeaturedCities = styled(Section)`
+  
   .featured-cities {
     &__header {
       margin-bottom: 30px;
@@ -316,18 +349,9 @@ const FeaturedCities = styled.div`
   }
 `;
 
-const FeaturedProperties = styled.div`
-  min-height: 65vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px 0;
-  @media screen and (min-width: 1024px) {
-    padding: 120px 0;
-  }
+const FeaturedProperties = styled(Section)`
   text-align: center;
   background: #f7fafd;
-  color: #77838f;
   a {
     text-decoration: none;
   }
@@ -349,6 +373,7 @@ const SectionTag = styled.div`
   align-items: center;
   justify-content: center;
   span {
+    font-size: 0.7rem;
     text-align: center;
     background: #ffeeee;
     color: #f45757;
@@ -484,5 +509,55 @@ const PropertyCard = styled.div`
         }
       }
     }
+  }
+`;
+
+const Download = styled(Section)`
+  color: #fff;
+  .download {
+    &__title {
+      font-size: 1.45rem;
+      margin-bottom: 20px;
+    }
+    &__buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    &__btn {
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+
+  .download__btn + .download__btn {
+    margin-top: 15px;
+  }
+
+  @media screen and (min-width: 1024px) {
+    .download {
+      max-width: 50%;
+      margin: 0 auto;
+      &__title {
+        font-size: 3.45rem;
+        margin-bottom: 40px;
+      }
+      &__buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
+      }
+    }
+  }
+`;
+
+const SectionTagDark = styled(SectionTag)`
+  span {
+    padding: 5px 40px;
+    background: rgba(0, 0, 0, 0.15);
+    color: #fff;
   }
 `;
