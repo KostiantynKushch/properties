@@ -74,18 +74,24 @@ export default function Home() {
                 {citiesSection.featuredCities.map((city) => (
                   <Col md="6" lg="3" key={city.id}>
                     <div className="city">
-                      <img
-                        src={
-                          city.featuredImage.node.mediaDetails.sizes[0]
-                            .sourceUrl
-                        }
-                        alt={city.title}
-                      />
-                      <h4 className="city__title">{city.title}</h4>
-                      <p className="city__listings">
-                        {getListings(city.slug) || '0'} Listings
-                      </p>
-                      <div className="city__exerpt">{parse(city.excerpt)}</div>
+                      <Link href={`/properties?city=${city.slug}`}>
+                        <a className="city__query-link">
+                          <img
+                            src={
+                              city.featuredImage.node.mediaDetails.sizes[0]
+                                .sourceUrl
+                            }
+                            alt={city.title}
+                          />
+                          <h4 className="city__title">{city.title}</h4>
+                          <p className="city__listings">
+                            {getListings(city.slug) || '0'} Listings
+                          </p>
+                          <div className="city__exerpt">
+                            {parse(city.excerpt)}
+                          </div>
+                        </a>
+                      </Link>
                     </div>
                   </Col>
                 ))}
@@ -274,7 +280,16 @@ const FeaturedCities = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+	 justify-content: center;
+	 border-radius: 4px;
+	 transition: box-shadow 0.5s ease;
+	 &:hover {
+    -webkit-box-shadow: 1px 7px 30px -7px #f45757;
+    box-shadow: 1px 7px 30px -7px #f45757;
+  }
+	 &__query-link{
+		 text-decoration: none;
+	 }
     img {
       width: 100%;
       max-width: 263px;
@@ -291,8 +306,14 @@ const FeaturedCities = styled.div`
       margin-bottom: 10px;
     }
     &__exerpt {
-      max-width: 212px;
-    }
+		max-width: 212px;
+		margin: 0 auto;
+		color: #77838f;
+		&:hover{
+			color: #77838f;
+		}
+	 }
+	}
   }
 `;
 
