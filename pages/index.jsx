@@ -42,23 +42,23 @@ export default function Home() {
     <>
       <PageHead page={title} />
       <main>
-        <HeroSection>
+        <SCHeroSection>
           <Container>
-            <HeroInner>
+            <SCHeroInner>
               <div className="title">
                 <h1>{heroTitle}</h1>
               </div>
-            </HeroInner>
+            </SCHeroInner>
           </Container>
-        </HeroSection>
-        <FeaturedCities className="featured-cities">
+        </SCHeroSection>
+        <SCFeaturedCities className="featured-cities">
           <Container>
             <Row>
               <Col>
                 <div className="featured-cities__header">
-                  <SectionTag>
+                  <SCSectionTag>
                     <span>{citiesSection.tag}</span>
-                  </SectionTag>
+                  </SCSectionTag>
                   <h2 className="featured-cities__title">
                     {citiesSection.title}
                   </h2>
@@ -95,15 +95,15 @@ export default function Home() {
               </Row>
             </div>
           </Container>
-        </FeaturedCities>
-        <FeaturedProperties className="featured-properties">
+        </SCFeaturedCities>
+        <SCFeaturedProperties className="featured-properties">
           <Container>
             <Row>
               <Col>
                 <div className="featured-properties__header">
-                  <SectionTag>
+                  <SCSectionTag>
                     <span>{propTag}</span>
-                  </SectionTag>
+                  </SCSectionTag>
                   <h2 className="featured-properties__title">{propTitle}</h2>
                   <div className="featured-properties__short-desc">
                     <p>{propDesc}</p>
@@ -115,7 +115,7 @@ export default function Home() {
               <Row>
                 {featuredProperties.map((property) => (
                   <Col key={property.id} sm="12" lg="4">
-                    <PropertyCard>
+                    <SCPropertyCard>
                       <div
                         className="header"
                         style={{
@@ -207,14 +207,14 @@ export default function Home() {
                           </Link>
                         </div>
                       </div>
-                    </PropertyCard>
+                    </SCPropertyCard>
                   </Col>
                 ))}
               </Row>
             </div>
           </Container>
-        </FeaturedProperties>
-        <Download
+        </SCFeaturedProperties>
+        <SCDownload
           style={{
             background: `url(${download.background.sourceUrl}) no-repeat`,
             backgroundSize: 'cover',
@@ -224,9 +224,9 @@ export default function Home() {
             <Row>
               <Col>
                 <div className="download">
-                  <SectionTagDark className="tag">
+                  <SCSectionTagDark className="tag">
                     <span>{download.tag}</span>
-                  </SectionTagDark>
+                  </SCSectionTagDark>
                   <h2 className="download__title">{download.title}</h2>
                   <div className="download__buttons">
                     {download.downloadButtons.map((button) => (
@@ -244,7 +244,7 @@ export default function Home() {
               </Col>
             </Row>
           </Container>
-        </Download>
+        </SCDownload>
       </main>
     </>
   );
@@ -263,11 +263,11 @@ export async function getStaticProps() {
   });
 }
 
-const HeroSection = styled.div`
+const SCHeroSection = styled.div`
   background: #99a2aa;
   color: #fff;
 `;
-const HeroInner = styled.div`
+const SCHeroInner = styled.div`
   min-height: 65vh;
   display: flex;
   flex-direction: column;
@@ -280,7 +280,7 @@ const HeroInner = styled.div`
   }
 `;
 
-const Section = styled.div`
+const SCSection = styled.div`
   min-height: 65vh;
   display: flex;
   flex-direction: column;
@@ -293,8 +293,7 @@ const Section = styled.div`
   color: #77838f;
 `;
 
-const FeaturedCities = styled(Section)`
-  
+const SCFeaturedCities = styled(SCSection)`
   .featured-cities {
     &__header {
       margin-bottom: 30px;
@@ -312,16 +311,16 @@ const FeaturedCities = styled(Section)`
     display: flex;
     flex-direction: column;
     align-items: center;
-	 justify-content: center;
-	 border-radius: 4px;
-	 transition: box-shadow 0.5s ease;
-	 &:hover {
-    -webkit-box-shadow: 1px 7px 30px -7px #f45757;
-    box-shadow: 1px 7px 30px -7px #f45757;
-  }
-	 &__query-link{
-		 text-decoration: none;
-	 }
+    justify-content: center;
+    border-radius: 4px;
+    transition: box-shadow 0.5s ease;
+    &:hover {
+      -webkit-box-shadow: 1px 7px 30px -7px #f45757;
+      box-shadow: 1px 7px 30px -7px #f45757;
+    }
+    &__query-link {
+      text-decoration: none;
+    }
     img {
       width: 100%;
       max-width: 263px;
@@ -338,18 +337,17 @@ const FeaturedCities = styled(Section)`
       margin-bottom: 10px;
     }
     &__exerpt {
-		max-width: 212px;
-		margin: 0 auto;
-		color: #77838f;
-		&:hover{
-			color: #77838f;
-		}
-	 }
-	}
+      max-width: 212px;
+      margin: 0 auto;
+      color: #77838f;
+      &:hover {
+        color: #77838f;
+      }
+    }
   }
 `;
 
-const FeaturedProperties = styled(Section)`
+const SCFeaturedProperties = styled(SCSection)`
   text-align: center;
   background: #f7fafd;
   a {
@@ -368,7 +366,7 @@ const FeaturedProperties = styled(Section)`
   }
 `;
 
-const SectionTag = styled.div`
+const SCSectionTag = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -383,7 +381,7 @@ const SectionTag = styled.div`
   }
 `;
 
-const PropertyCard = styled.div`
+const SCPropertyCard = styled.div`
   max-width: 360px;
   margin: 0 auto 30px auto;
   color: #77838f;
@@ -512,7 +510,7 @@ const PropertyCard = styled.div`
   }
 `;
 
-const Download = styled(Section)`
+const SCDownload = styled(SCSection)`
   color: #fff;
   .download {
     &__title {
@@ -554,7 +552,7 @@ const Download = styled(Section)`
   }
 `;
 
-const SectionTagDark = styled(SectionTag)`
+const SCSectionTagDark = styled(SCSectionTag)`
   span {
     padding: 5px 40px;
     background: rgba(0, 0, 0, 0.15);
