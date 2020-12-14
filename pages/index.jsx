@@ -23,7 +23,7 @@ export default function Home() {
   if (error) return <p>Error :</p>;
 
   const { title, acfHomeFields } = data.pages.nodes[0];
-  const { heroTitle, citiesSection, properties } = acfHomeFields;
+  const { heroTitle, citiesSection, properties, download } = acfHomeFields;
   const citiesStat = data.categories.nodes;
   const {
     title: propTitle,
@@ -31,6 +31,8 @@ export default function Home() {
     shortDescription: propDesc,
     featuredProperties,
   } = properties;
+
+  console.log(download);
 
   const getListings = (slug = null) => {
     if (!slug) return;
@@ -77,10 +79,7 @@ export default function Home() {
                       <Link href={`/properties?city=${city.slug}`}>
                         <a className="city__query-link">
                           <img
-                            src={
-                              city.featuredImage.node.mediaDetails.sizes[0]
-                                .sourceUrl
-                            }
+                            src={city.featuredImage.node.sourceUrl}
                             alt={city.title}
                           />
                           <h4 className="city__title">{city.title}</h4>
@@ -122,7 +121,7 @@ export default function Home() {
                       <div
                         className="header"
                         style={{
-                          background: `url(${property.featuredImage.node.mediaDetails.sizes[3].sourceUrl}) no-repeat`,
+                          background: `url(${property.featuredImage.node.sourceUrl}) no-repeat`,
                           backgroundSize: 'cover',
                           backgroundPositionX: 0,
                           backgroundPositionY: '100%',
