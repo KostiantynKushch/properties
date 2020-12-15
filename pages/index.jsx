@@ -1,4 +1,5 @@
 import PageHead from '../components/PageHead';
+import SectionHeader from '../components/SectionHeader';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import { HOME_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
@@ -8,12 +9,15 @@ import {
   SCHeroSection,
   SCHeroInner,
   SCFeaturedCities,
-  SCSectionTag,
-  SCSectionTagDark,
   SCFeaturedProperties,
   SCPropertyCard,
   SCDownload,
+  SCReviews,
 } from '../styles/homeStyles';
+import {
+  SCSectionTag,
+  SCSectionTagDark,
+} from '../styles/commonStyledComponens';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -32,7 +36,13 @@ export default function Home() {
   if (error) return <p>Error :</p>;
 
   const { title, acfHomeFields } = data.pages.nodes[0];
-  const { heroTitle, citiesSection, properties, download } = acfHomeFields;
+  const {
+    heroTitle,
+    citiesSection,
+    properties,
+    download,
+    reviewsSection,
+  } = acfHomeFields;
   const citiesStat = data.categories.nodes;
   const {
     title: propTitle,
@@ -40,6 +50,8 @@ export default function Home() {
     shortDescription: propDesc,
     featuredProperties,
   } = properties;
+
+  console.log(reviewsSection);
 
   const getListings = (slug = null) => {
     if (!slug) return;
@@ -64,17 +76,11 @@ export default function Home() {
           <Container>
             <Row>
               <Col>
-                <div className="featured-cities__header">
-                  <SCSectionTag>
-                    <span>{citiesSection.tag}</span>
-                  </SCSectionTag>
-                  <h2 className="featured-cities__title">
-                    {citiesSection.title}
-                  </h2>
-                  <div className="featured-cities__short-desc">
-                    <p>{citiesSection.shortDescription}</p>
-                  </div>
-                </div>
+                <SectionHeader
+                  tag={citiesSection.tag}
+                  title={citiesSection.title}
+                  description={citiesSection.shortDescription}
+                />
               </Col>
             </Row>
 
@@ -109,15 +115,11 @@ export default function Home() {
           <Container>
             <Row>
               <Col>
-                <div className="featured-properties__header">
-                  <SCSectionTag>
-                    <span>{propTag}</span>
-                  </SCSectionTag>
-                  <h2 className="featured-properties__title">{propTitle}</h2>
-                  <div className="featured-properties__short-desc">
-                    <p>{propDesc}</p>
-                  </div>
-                </div>
+                <SectionHeader
+                  tag={propTag}
+                  title={propTitle}
+                  description={propDesc}
+                />
               </Col>
             </Row>
             <div className="featured-properties__cities properties">
@@ -254,6 +256,15 @@ export default function Home() {
             </Row>
           </Container>
         </SCDownload>
+        {reviewsSection && (
+          <SCReviews>
+            <SectionHeader
+              tag={reviewsSection.tag}
+              title={reviewsSection.title}
+              description={reviewsSection.description}
+            />
+          </SCReviews>
+        )}
       </main>
     </>
   );

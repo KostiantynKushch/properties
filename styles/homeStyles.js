@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { SCSection } from './commonStyledComponens';
 
 export const SCHeroSection = styled.div`
   background: #99a2aa;
@@ -17,33 +18,7 @@ export const SCHeroInner = styled.div`
   }
 `;
 
-export const SCSection = styled.div`
-  min-height: 65vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding: 40px 0;
-  @media screen and (min-width: 1024px) {
-    padding: 120px 0;
-  }
-  text-align: center;
-  color: #77838f;
-`;
-
 export const SCFeaturedCities = styled(SCSection)`
-  .featured-cities {
-    &__header {
-      margin-bottom: 30px;
-    }
-    &__title {
-      color: #1e2022;
-    }
-    &__short-desc {
-      max-width: 457px;
-      margin: 0 auto;
-      margin-bottom: 40px;
-    }
-  }
   .city {
     display: flex;
     flex-direction: column;
@@ -89,32 +64,6 @@ export const SCFeaturedProperties = styled(SCSection)`
   background: #f7fafd;
   a {
     text-decoration: none;
-  }
-
-  .featured-properties {
-    &__title {
-      color: #1e2022;
-    }
-    &__short-desc {
-      max-width: 457px;
-      margin: 0 auto;
-      margin-bottom: 40px;
-    }
-  }
-`;
-
-export const SCSectionTag = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  span {
-    font-size: 0.7rem;
-    text-align: center;
-    background: #ffeeee;
-    color: #f45757;
-    padding: 5px 20px;
-    border-radius: 16px;
-    margin-bottom: 15px;
   }
 `;
 
@@ -289,10 +238,4 @@ export const SCDownload = styled(SCSection)`
   }
 `;
 
-export const SCSectionTagDark = styled(SCSectionTag)`
-  span {
-    padding: 5px 40px;
-    background: rgba(0, 0, 0, 0.15);
-    color: #fff;
-  }
-`;
+export const SCReviews = styled(SCSection)``;
