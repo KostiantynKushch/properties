@@ -1,5 +1,6 @@
 import PageHead from '../components/PageHead';
 import SectionHeader from '../components/SectionHeader';
+import ReviewsSlider from '../components/ReviewsSlider';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import { HOME_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
@@ -258,11 +259,22 @@ export default function Home() {
         </SCDownload>
         {reviewsSection && (
           <SCReviews>
-            <SectionHeader
-              tag={reviewsSection.tag}
-              title={reviewsSection.title}
-              description={reviewsSection.description}
-            />
+            <Container>
+              <Row>
+                <Col>
+                  <SectionHeader
+                    tag={reviewsSection.tag}
+                    title={reviewsSection.title}
+                    description={reviewsSection.description}
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <ReviewsSlider reviews={reviewsSection.reviews} />
+                </Col>
+              </Row>
+            </Container>
           </SCReviews>
         )}
       </main>
