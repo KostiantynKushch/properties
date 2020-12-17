@@ -11,18 +11,52 @@ h1 {
   line-height: 1.26;
 }
 
-// .hero {
-//   background: #99a2aa;
-//   color: #fff;
-//   .inner {
-//     min-height: 65vh;
-//     display: flex;
-//     flex-direction: column;
-//     align-items: center;
-//     justify-content: center;
-//     .title {
-//       max-width: 555px;
-//       text-align: center;
-//     }
-//   }
-// }
+.react-multi-carousel-dot-list {
+  padding-right: 20px !important;
+}
+
+.reviews-slider {
+  &__dots {
+    padding-right: 20px;
+    .react-multi-carousel-dot {
+      button {
+        width: 8px;
+        height: 8px;
+        background: #d8d8d8;
+        border: none;
+        position: relative;
+        margin-left: 12px;
+        transition: all 0.5s ease;
+        &:hover {
+          background: #f45757;
+          &:after {
+            background: #f45757;
+          }
+        }
+        &:after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 12px;
+          width: 8px;
+          height: 8px;
+          border-radius: 4px 4px 4px 4px;
+          background: #d8d8d8;
+          transition: all 0.5s ease;
+        }
+      }
+
+      &--active {
+        button {
+          background: #f45757;
+          &:after {
+            left: 0;
+            width: 22px;
+            border-radius: 25%;
+            background: #f45757;
+          }
+        }
+      }
+    }
+  }
+}

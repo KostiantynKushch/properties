@@ -15,10 +15,7 @@ import {
   SCDownload,
   SCReviews,
 } from '../styles/homeStyles';
-import {
-  SCSectionTag,
-  SCSectionTagDark,
-} from '../styles/commonStyledComponens';
+import { SCSectionTagDark } from '../styles/commonStyledComponens';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
