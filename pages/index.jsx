@@ -1,6 +1,7 @@
 import PageHead from '../components/PageHead';
 import SectionHeader from '../components/SectionHeader';
 import ReviewsSlider from '../components/ReviewsSlider';
+import NewsletterSection from '../components/NewsletterSection';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import { HOME_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
@@ -40,6 +41,7 @@ export default function Home() {
     properties,
     download,
     reviewsSection,
+    newsletter,
   } = acfHomeFields;
   const citiesStat = data.categories.nodes;
   const {
@@ -49,14 +51,12 @@ export default function Home() {
     featuredProperties,
   } = properties;
 
-  console.log(reviewsSection);
-
   const getListings = (slug = null) => {
     if (!slug) return;
     const cityCount = citiesStat.filter((item) => item.slug === slug);
     return cityCount.length === 0 ? null : cityCount[0].count;
   };
-
+  console.log(newsletter);
   return (
     <>
       <PageHead page={title} />
@@ -273,6 +273,13 @@ export default function Home() {
               </Row>
             </Container>
           </SCReviews>
+        )}
+        {newsletter && (
+          <NewsletterSection
+            title={newsletter.title}
+            description={newsletter.description}
+            formId={newsletter.formId}
+          />
         )}
       </main>
     </>
