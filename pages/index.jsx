@@ -56,7 +56,6 @@ export default function Home() {
     const cityCount = citiesStat.filter((item) => item.slug === slug);
     return cityCount.length === 0 ? null : cityCount[0].count;
   };
-  console.log(newsletter);
   return (
     <>
       <PageHead page={title} />
@@ -279,6 +278,7 @@ export default function Home() {
             title={newsletter.title}
             description={newsletter.description}
             formId={newsletter.formId}
+            fieldId={newsletter.fieldId}
           />
         )}
       </main>
