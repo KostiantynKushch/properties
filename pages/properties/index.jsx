@@ -4,8 +4,11 @@ import { initializeApollo, addApolloState } from '../../lib/apolloClient';
 import parse from 'html-react-parser';
 import { Container } from 'react-bootstrap';
 import PageHead from '../../components/PageHead';
+import { useRouter } from 'next/router';
 
 const properties = () => {
+  const router = useRouter();
+  console.log(router.query);
   const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error :</p>;
