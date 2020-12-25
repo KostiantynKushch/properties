@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
-import { SCSection } from '../styles/commonStyledComponens';
+import SearchForm from './SearchForm';
 
 const HomeHeroSection = ({ heroTitle }) => {
   return (
@@ -9,6 +9,9 @@ const HomeHeroSection = ({ heroTitle }) => {
         <SCHeroInner>
           <div className="title">
             <h1>{heroTitle}</h1>
+          </div>
+          <div className="search">
+            <SearchForm />
           </div>
         </SCHeroInner>
       </Container>

@@ -10,6 +10,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { numFormating, dateFormat } from '../lib/utils';
 import Link from 'next/link';
+import PropTypes from 'prop-types';
 
 const PropertyCard = ({
   backgrounUrl,
@@ -95,6 +96,19 @@ const PropertyCard = ({
 };
 
 export default PropertyCard;
+
+PropertyCard.propTypes = {
+  slug: PropTypes.string.isRequired,
+  date: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  location: PropTypes.string.isRequired,
+  beds: PropTypes.number.isRequired,
+  bathrooms: PropTypes.number.isRequired,
+  tvs: PropTypes.number.isRequired,
+  sqft: PropTypes.number.isRequired,
+  authorPic: PropTypes.string.isRequired,
+  authorName: PropTypes.string.isRequired,
+};
 
 const SCPropertyCard = styled.div`
   max-width: 360px;
