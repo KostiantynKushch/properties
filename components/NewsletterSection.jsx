@@ -9,11 +9,31 @@ import { validateEmail } from '../lib/utils';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
 import { SCSection } from '../styles/commonStyledComponens';
+import Notification from './Notification';
 
 const NewsletterSection = ({ title, description, formId, fieldId }) => {
   const [email, setEmail] = useState('');
   const [formSending, setFormSending] = useState(false);
-  const [formErrors, setFormErrors] = useState(null);
+  const [notification, setNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState('');
+  const [notificationTime, setNotificationTime] = useState(null);
+
+  const toggleNotification = (message) => {
+    if (notification && notificationMessage && !message) {
+      setNotification(false);
+      setNotificationMessage('');
+    } else {
+      setNotification(true);
+      setNotificationTime(new Date().toLocaleTimeString());
+      setNotificationMessage(message);
+    }
+
+    setTimeout(() => {
+      setNotification(false);
+      setNotificationMessage('');
+    }, 5000);
+  };
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
   };
@@ -35,9 +55,9 @@ const NewsletterSection = ({ title, description, formId, fieldId }) => {
     e.preventDefault();
     if (validateEmail(email)) {
       createDraft({ variables: { formId: formId } });
-      setFormErrors('');
+      setNotification('');
     } else {
-      setFormErrors("Email Address isn't Valid");
+      toggleNotification("Oops! Your email doesn't valid!");
     }
   };
 
@@ -76,66 +96,76 @@ const NewsletterSection = ({ title, description, formId, fieldId }) => {
     ) {
       setEmail('');
       setFormSending(false);
+      toggleNotification('Thank you for the Subscription!');
     }
   }, [submitLoading]);
 
   useEffect(() => {
     if (draftError || updateError || submitError) {
       setFormSending(false);
-      setFormErrors('Sorry we have some problems... Try again letter.');
+      toggleNotification('Oops! An error occurred, please try again latter.');
     }
   }, [draftError, updateError, submitError]);
   return (
-    <SCNewsLetter>
-      <Container>
-        <Row>
-          <Col>
-            <h2>{title}</h2>
-            <div className="description">
-              <p>{description}</p>
-            </div>
+    <>
+      <SCNewsLetter>
+        <Container>
+          <Row>
+            <Col>
+              <h2>{title}</h2>
+              <div className="description">
+                <p>{description}</p>
+              </div>
 
-            <form onSubmit={handleSubmit} className="subscribe-form">
-              <input
-                className="email-field"
-                type="email"
-                value={email}
-                onChange={handleEmailChange}
-                required
-                disabled={formSending ? true : false}
-              />
-              <button
-                className="submit"
-                type="submit"
-                disabled={formSending ? true : false}
-              >
-                <svg
-                  width="21"
-                  height="21"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
+              <form onSubmit={handleSubmit} className="subscribe-form">
+                <input
+                  className="email-field"
+                  type="email"
+                  value={email}
+                  onChange={handleEmailChange}
+                  required
+                  disabled={formSending ? true : false}
+                  placeholder="Enter your email address"
+                />
+                <button
+                  className="submit"
+                  type="submit"
+                  disabled={formSending ? true : false}
                 >
-                  <path
-                    d="M20.688.98a.698.698 0 01.3.714l-2.856 17.143a.704.704 0 01-.357.502.685.685 0 01-.614.034l-5.882-2.4-3.326 3.65a.658.658 0 01-.524.234.635.635 0 01-.257-.044.661.661 0 01-.335-.268.692.692 0 01-.123-.402v-5.045l-5.268-2.154c-.275-.104-.424-.309-.446-.614-.022-.29.097-.51.357-.658L19.93.958c.26-.157.513-.15.759.022zM16.87 17.71l2.466-14.766-16.004 9.23 3.75 1.53 9.631-7.133-5.334 8.896 5.49 2.243z"
-                    fill="#fff"
-                  />
-                </svg>
-              </button>
-              {formSending && (
-                <div className="loading-spinner">
-                  <Spinner
-                    animation="border"
-                    variant="secondary"
-                    className="loading-spinner__body"
-                  />
-                </div>
-              )}
-              {formErrors && <p>{formErrors}</p>}
-            </form>
-          </Col>
-        </Row>
-      </Container>
-    </SCNewsLetter>
+                  <svg
+                    width="21"
+                    height="21"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M20.688.98a.698.698 0 01.3.714l-2.856 17.143a.704.704 0 01-.357.502.685.685 0 01-.614.034l-5.882-2.4-3.326 3.65a.658.658 0 01-.524.234.635.635 0 01-.257-.044.661.661 0 01-.335-.268.692.692 0 01-.123-.402v-5.045l-5.268-2.154c-.275-.104-.424-.309-.446-.614-.022-.29.097-.51.357-.658L19.93.958c.26-.157.513-.15.759.022zM16.87 17.71l2.466-14.766-16.004 9.23 3.75 1.53 9.631-7.133-5.334 8.896 5.49 2.243z"
+                      fill="#fff"
+                    />
+                  </svg>
+                </button>
+                {formSending && (
+                  <div className="loading-spinner">
+                    <Spinner
+                      animation="border"
+                      variant="secondary"
+                      className="loading-spinner__body"
+                    />
+                  </div>
+                )}
+              </form>
+            </Col>
+          </Row>
+        </Container>
+      </SCNewsLetter>
+      <Notification
+        show={notification}
+        onToggle={() => toggleNotification()}
+        title="Hotel Properties"
+        message={notificationMessage}
+        time={notificationTime}
+      />
+    </>
   );
 };
 
@@ -160,10 +190,13 @@ const SCNewsLetter = styled(SCSection)`
     outline: none;
     width: 100%;
     height: 52px;
-    padding: 6px 52px 6px 6px;
+    padding: 6px 65px 6px 19px;
     border-radius: 4px;
     &:focus {
       box-shadow: inset 0px 0px 0px 1px #fd8a8a;
+    }
+    &::placeholder {
+      color: #77838f;
     }
   }
   .submit {
