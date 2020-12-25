@@ -1,4 +1,5 @@
 import PageHead from '../components/PageHead';
+import HomeHeroSection from '../components/HomeHeroSection';
 import NewsletterSection from '../components/NewsletterSection';
 import DownloadSection from '../components/DownloadSection';
 import ReviewsSection from '../components/ReviewsSection';
@@ -7,8 +8,6 @@ import FeaturedCitiesSection from '../components/FeaturedCitiesSection';
 import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import { HOME_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
-import { Container, Row, Col } from 'react-bootstrap';
-import { SCHeroSection, SCHeroInner } from '../styles/homeStyles';
 
 export default function Home() {
   const { loading, error, data } = useQuery(HOME_PAGE);
@@ -30,15 +29,7 @@ export default function Home() {
     <>
       <PageHead page={title} />
       <main>
-        <SCHeroSection>
-          <Container>
-            <SCHeroInner>
-              <div className="title">
-                <h1>{heroTitle}</h1>
-              </div>
-            </SCHeroInner>
-          </Container>
-        </SCHeroSection>
+        {heroTitle && <HomeHeroSection heroTitle={heroTitle} />}
 
         {citiesSection && (
           <FeaturedCitiesSection

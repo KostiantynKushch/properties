@@ -22,7 +22,6 @@ const responsive = {
 };
 
 const ReviewsSlider = ({ reviews }) => {
-  console.log(reviews);
   return (
     <Carousel
       arrows={false}
