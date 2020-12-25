@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { Toast } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 const Notification = ({ onToggle, show, title, message, time }) => {
   return (
@@ -29,6 +30,15 @@ const Notification = ({ onToggle, show, title, message, time }) => {
 };
 
 export default Notification;
+
+// onToggle, show, title, message, time
+Notification.propTypes = {
+  onToggle: PropTypes.func.isRequired,
+  show: PropTypes.bool.isRequired,
+  title: PropTypes.string.isRequired,
+  message: PropTypes.string.isRequired,
+  time: PropTypes.string,
+};
 
 const SCNotify = styled.div`
   .notification {

@@ -1,6 +1,7 @@
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 import styled from 'styled-components';
+import PropTypes from 'prop-types';
 
 const responsive = {
   desktop: {
@@ -20,23 +21,8 @@ const responsive = {
   },
 };
 
-const ReviewsSlider = ({ reviews, dots }) => {
-  const CustomDot = ({ index, onClick, active }) => {
-    return (
-      <button
-        onClick={(e) => {
-          onClick();
-          e.preventDefault();
-        }}
-        className={classNames('custom-dot', {
-          'custom-dot--active': active,
-        })}
-      >
-        {React.Children.toArray(images)[index]}
-      </button>
-    );
-  };
-
+const ReviewsSlider = ({ reviews }) => {
+  console.log(reviews);
   return (
     <Carousel
       arrows={false}
@@ -165,6 +151,29 @@ const ReviewsSlider = ({ reviews, dots }) => {
 };
 
 export default ReviewsSlider;
+
+ReviewsSlider.propTypes = {
+  reviews: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      title: PropTypes.string.isRequired,
+      acfReviews: PropTypes.shape({
+        hotelName: PropTypes.string.isRequired,
+        review: PropTypes.string.isRequired,
+        socialMediaLinks: PropTypes.shape({
+          facebook: PropTypes.string,
+          instagr: PropTypes.string,
+          twitter: PropTypes.string,
+        }),
+      }).isRequired,
+      featuredImage: PropTypes.shape({
+        node: PropTypes.shape({
+          sourceUrl: PropTypes.string,
+        }),
+      }),
+    }).isRequired
+  ).isRequired,
+};
 
 const Slide = styled.div`
   margin-bottom: 40px;

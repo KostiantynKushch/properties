@@ -10,6 +10,7 @@ import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
 import { SCSection } from '../styles/commonStyledComponens';
 import Notification from './Notification';
+import PropTypes from 'prop-types';
 
 const NewsletterSection = ({ title, description, formId, fieldId }) => {
   const [email, setEmail] = useState('');
@@ -55,7 +56,7 @@ const NewsletterSection = ({ title, description, formId, fieldId }) => {
     e.preventDefault();
     if (validateEmail(email)) {
       createDraft({ variables: { formId: formId } });
-      setNotification('');
+      setNotificationMessage('');
     } else {
       toggleNotification("Oops! Your email doesn't valid!");
     }
@@ -170,6 +171,12 @@ const NewsletterSection = ({ title, description, formId, fieldId }) => {
 };
 
 export default NewsletterSection;
+NewsletterSection.propTypes = {
+  title: PropTypes.string.isRequired,
+  description: PropTypes.string.isRequired,
+  formId: PropTypes.number,
+  FieldId: PropTypes.number,
+};
 
 const SCNewsLetter = styled(SCSection)`
   background: #f7fafd;
