@@ -185,7 +185,7 @@ const SCNewsLetter = styled(SCSection)`
   }
   .description {
     max-width: 457px;
-    margin: 0 auto;
+    margin: 0 auto 40px;
   }
   .subscribe-form {
     position: relative;

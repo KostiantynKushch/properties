@@ -139,7 +139,6 @@ const StFooter = styled.footer`
       color: #1e2022;
     }
     &__link {
-      color: inherit;
     }
     &__arrow {
       margin-right: 15px;
@@ -156,9 +155,6 @@ const StFooter = styled.footer`
     }
     &__email,
     &__phone {
-      a {
-        color: inherit;
-      }
     }
   }
   .copyrighting {
