@@ -9,55 +9,11 @@ import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 import { Sling as Hamburger } from 'hamburger-react';
 
-function debounce(fn, ms) {
-  let timer;
-  return (_) => {
-    clearTimeout(timer);
-    timer = setTimeout((_) => {
-      timer = null;
-      fn.apply(this, arguments);
-    }, ms);
-  };
-}
-
-const Header = () => {
-  const [dimensions, setDimensions] = useState({
-    height: 0,
-    width: 0,
-  });
+const Header = ({ menuItems, logo }) => {
   const [isOpenHamb, setOpenHamb] = useState(false);
 
   const { pathname } = useRouter();
 
-  const debouncedHandleResize = debounce(() => {
-    setDimensions({
-      height: window.innerHeight,
-      width: window.innerWidth,
-    });
-  }, 300);
-
-  useEffect(() => {
-    debouncedHandleResize();
-
-    window.addEventListener('resize', debouncedHandleResize);
-
-    return (_) => {
-      window.removeEventListener('resize', debouncedHandleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (dimensions.width <= 768) {
-      if (isOpenHamb) setOpenHamb(false);
-    }
-  }, [pathname]);
-
-  const { loading, error, data } = useQuery(HEADER_SETTINGS);
-  if (loading) return <p>Loader ...</p>;
-  if (error) return <p>Error : </p>;
-
-  const menuItems = data.menus.nodes[0].menuItems.nodes;
-  const { logo } = data.pages.nodes[0].acfOptions;
   return (
     <header>
       <Container fluid="xl">
@@ -71,54 +27,44 @@ const Header = () => {
               </Link>
             </LogoCol>
             <Col>
-              <Nav
-                style={
-                  dimensions.width <= 768
-                    ? { justifyContent: 'flex-end', marginRight: '-30px' }
-                    : {}
-                }
-              >
-                {dimensions.width > 768 && (
-                  <MenuList>
-                    {menuItems.map((item) => (
-                      <MenuItem key={item.id}>
-                        <ActiveLink
-                          activeClassName="active-link"
-                          href={item.path}
-                        >
-                          <a>{item.label}</a>
-                        </ActiveLink>
-                      </MenuItem>
-                    ))}
-                  </MenuList>
-                )}
+              <Nav>
+                <MenuList>
+                  {menuItems.map((item) => (
+                    <MenuItem key={item.id}>
+                      <ActiveLink
+                        activeClassName="active-link"
+                        href={item.path}
+                      >
+                        <a>{item.label}</a>
+                      </ActiveLink>
+                    </MenuItem>
+                  ))}
+                </MenuList>
 
-                {dimensions.width <= 768 && (
-                  <Hamburger
-                    toggled={isOpenHamb}
-                    toggle={setOpenHamb}
-                    color="#77838f"
-                  />
-                )}
+                <Hamburger
+                  className="hamb"
+                  toggled={isOpenHamb}
+                  toggle={setOpenHamb}
+                  color="#77838f"
+                />
               </Nav>
             </Col>
           </SRow>
         </HeaderContainer>
-        {dimensions.width <= 768 && (
-          <MobileMenu>
-            <MobileMenuContainer className={isOpenHamb ? 'show' : null}>
-              <MobileMenuList>
-                {menuItems.map((item) => (
-                  <MenuItem key={item.id}>
-                    <ActiveLink activeClassName="active-link" href={item.path}>
-                      <a>{item.label}</a>
-                    </ActiveLink>
-                  </MenuItem>
-                ))}
-              </MobileMenuList>
-            </MobileMenuContainer>
-          </MobileMenu>
-        )}
+
+        <MobileMenu>
+          <div className={`mob-nav ${isOpenHamb ? 'show' : ''}`}>
+            <MobileMenuList>
+              {menuItems.map((item) => (
+                <MenuItem key={item.id}>
+                  <ActiveLink activeClassName="active-link" href={item.path}>
+                    <a>{item.label}</a>
+                  </ActiveLink>
+                </MenuItem>
+              ))}
+            </MobileMenuList>
+          </div>
+        </MobileMenu>
       </Container>
     </header>
   );
@@ -141,6 +87,15 @@ const Nav = styled.nav`
   height: 100%;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  margin-right: -30px;
+
+  .hamburger-react {
+    z-index: 4;
+    @media screen and (min-width: 1042px) {
+      display: none;
+    }
+  }
 `;
 
 const LogoCol = styled(Col)`
@@ -150,33 +105,42 @@ const LogoCol = styled(Col)`
 `;
 
 const MobileMenu = styled.nav`
-  position: relative;
-  .show {
-    background: #fff;
-    transform: translateY(100vh);
+  .mob-nav {
+    display: none;
+    z-index: 3;
   }
-`;
+  .mob-nav.show {
+    display: initial;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 10%;
 
-const MobileMenuContainer = styled.div`
-  position: absolute;
-  top: -100vh;
-  left: -15px;
-  height: calc(100vh - 80px);
-  width: 100vw;
-  z-index: 3;
-  transition: transform 0.5s ease;
+    @media screen and (min-width: 640px) {
+      left: 30%;
+    }
+    @media screen and (min-width: 768px) {
+      left: 50%;
+    }
+    background: #fff;
+  }
 `;
 
 const MenuList = styled.ul`
   width: 100%;
-  display: flex;
+  display: none;
   align-items: center;
   justify-content: space-between;
   padding-left: 0;
   margin-bottom: 0;
+  @media screen and (min-width: 1042px) {
+    display: flex;
+  }
 `;
 
 const MobileMenuList = styled(MenuList)`
+  display: flex;
   flex-direction: column;
   justify-content: space-around;
   height: 100%;

@@ -1,6 +1,3 @@
-import { useQuery } from '@apollo/client';
-import { OPTIONS_PAGE } from '../lib/Queries';
-import { initializeApollo, addApolloState } from '../lib/apolloClient';
 import Link from 'next/link';
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
@@ -8,18 +5,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { getPhoneMask } from '../lib/utils';
 
-const Footer = () => {
-  const { loading, error, data } = useQuery(OPTIONS_PAGE);
-  if (loading) return <p>Loader ...</p>;
-  if (error) return <p>Error : </p>;
+const Footer = ({ options }) => {
+  const { logo, contactInfo, navigation, tagline, copyrighting } = options;
 
-  const {
-    logo,
-    contactInfo,
-    navigation,
-    tagline,
-    copyrighting,
-  } = data.pages.nodes[0].acfOptions;
   return (
     <StFooter>
       <Container fluid="xl">
@@ -98,19 +86,6 @@ const Footer = () => {
     </StFooter>
   );
 };
-
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: OPTIONS_PAGE,
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 1,
-  });
-}
 
 const StFooter = styled.footer`
   padding: 30px 0 10px;
