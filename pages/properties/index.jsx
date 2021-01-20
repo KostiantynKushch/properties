@@ -4,14 +4,14 @@ import {
   GENERAL_SETTINGS,
   OPTIONS_PAGE,
 } from '../../lib/Queries';
-import { initializeApollo, addApolloState } from '../../lib/apolloClient';
+import { initializeApollo } from '../../lib/apolloClient';
 import parse from 'html-react-parser';
 import { Container } from 'react-bootstrap';
 import PageHead from '../../components/PageHead';
 import MainLayout from '../../components/MainLayout';
 import { useRouter } from 'next/router';
 
-const properties = () => {
+const properties = ({ initialApolloState }) => {
   const router = useRouter();
   console.log(router.query);
   const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);
@@ -60,10 +60,12 @@ export async function getStaticProps() {
     query: GENERAL_SETTINGS,
   });
 
-  return addApolloState(apolloClient, {
-    props: {},
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
     revalidate: 1,
-  });
+  };
 }
 
 export default properties;

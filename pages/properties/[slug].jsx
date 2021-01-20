@@ -2,7 +2,7 @@ import { Container } from 'react-bootstrap';
 import MainLayout from '../../components/MainLayout';
 import { useQuery } from '@apollo/client';
 import { GENERAL_SETTINGS, OPTIONS_PAGE } from '../../lib/Queries';
-import { initializeApollo, addApolloState } from '../../lib/apolloClient';
+import { initializeApollo } from '../../lib/apolloClient';
 import { useRouter } from 'next/router';
 
 const properties = () => {
@@ -55,10 +55,10 @@ export async function getStaticProps() {
     query: OPTIONS_PAGE,
   });
 
-  return addApolloState(apolloClient, {
+  return {
     props: {},
     revalidate: 1,
-  });
+  };
 }
 
 export default properties;

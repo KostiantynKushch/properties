@@ -5,12 +5,10 @@ import '../styles/main.scss';
 // import Footer from '../components/Footer';
 
 function MyApp({ Component, pageProps }) {
-  const apolloClient = useApollo(pageProps);
+  const apolloClient = useApollo(pageProps.initialApolloState);
   return (
     <ApolloProvider client={apolloClient}>
-      {/* <Header /> */}
       <Component {...pageProps} />
-      {/* <Footer /> */}
     </ApolloProvider>
   );
 }

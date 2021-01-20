@@ -1,7 +1,4 @@
-import { useQuery } from '@apollo/client';
-import { useEffect, useState } from 'react';
-import { HEADER_SETTINGS } from '../lib/Queries';
-import { initializeApollo, addApolloState } from '../lib/apolloClient';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import ActiveLink from './ActiveLink';
@@ -69,19 +66,6 @@ const Header = ({ menuItems, logo }) => {
     </header>
   );
 };
-
-export async function getStaticProps() {
-  const apolloClient = initializeApollo();
-
-  await apolloClient.query({
-    query: HEADER_SETTINGS,
-  });
-
-  return addApolloState(apolloClient, {
-    props: {},
-    revalidate: 1,
-  });
-}
 
 const Nav = styled.nav`
   height: 100%;

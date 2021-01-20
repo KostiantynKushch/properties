@@ -6,11 +6,11 @@ import DownloadSection from '../components/DownloadSection';
 import ReviewsSection from '../components/ReviewsSection';
 import FeaturedPropertiesSection from '../components/FeaturedPropertiesSection';
 import FeaturedCitiesSection from '../components/FeaturedCitiesSection';
-import { initializeApollo, addApolloState } from '../lib/apolloClient';
+import { initializeApollo } from '../lib/apolloClient';
 import { HOME_PAGE, GENERAL_SETTINGS, OPTIONS_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
 
-export default function Home() {
+export default function Home({ initialApolloState }) {
   const { loading, error, data } = useQuery(HOME_PAGE);
   const {
     loding: settingsLoading,
@@ -109,8 +109,10 @@ export async function getStaticProps() {
     query: GENERAL_SETTINGS,
   });
 
-  return addApolloState(apolloClient, {
-    props: {},
+  return {
+    props: {
+      initialApolloState: apolloClient.cache.extract(),
+    },
     revalidate: 1,
-  });
+  };
 }
