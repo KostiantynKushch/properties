@@ -6,9 +6,12 @@ body {
 
 h1 {
   font-weight: 400;
-  font-size: 38px;
+  font-size: 28px;
   letter-spacing: 1.42px;
   line-height: 1.26;
+  @media screen and (min-width: 768px) {
+    font-size: 38px;
+  }
 }
 
 a {

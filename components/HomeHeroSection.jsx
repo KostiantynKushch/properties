@@ -24,6 +24,7 @@ export default HomeHeroSection;
 const SCHeroSection = styled.div`
   background: #99a2aa;
   color: #fff;
+  padding: 15px 0;
 `;
 const SCHeroInner = styled.div`
   min-height: 65vh;
@@ -35,5 +36,8 @@ const SCHeroInner = styled.div`
   .title {
     max-width: 555px;
     text-align: center;
+  }
+  .search {
+    width: 100%;
   }
 `;

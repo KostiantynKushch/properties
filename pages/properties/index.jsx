@@ -11,7 +11,7 @@ import PageHead from '../../components/PageHead';
 import MainLayout from '../../components/MainLayout';
 import { useRouter } from 'next/router';
 
-const properties = ({ initialApolloState }) => {
+const properties = () => {
   const router = useRouter();
   console.log(router.query);
   const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);

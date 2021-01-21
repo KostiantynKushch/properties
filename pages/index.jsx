@@ -10,7 +10,7 @@ import { initializeApollo } from '../lib/apolloClient';
 import { HOME_PAGE, GENERAL_SETTINGS, OPTIONS_PAGE } from '../lib/Queries';
 import { useQuery } from '@apollo/client';
 
-export default function Home({ initialApolloState }) {
+export default function Home() {
   const { loading, error, data } = useQuery(HOME_PAGE);
   const {
     loding: settingsLoading,
