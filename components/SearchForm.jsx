@@ -1,31 +1,22 @@
-import { useState } from 'react';
-import { useRouter } from 'next/router';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
 
-const SearchForm = () => {
-  const [city, setCity] = useState('');
-  const [checkIn, setCheckIn] = useState(new Date());
-  const [checkOut, setCheckOut] = useState(new Date());
-  const [guests, setGuests] = useState(0);
-  const router = useRouter();
-
-  const handleCityChange = (e) => {
-    setCity(e.target.value);
-  };
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    router.push(
-      `/properties/?city=${city}&checkin=${checkIn}&checkout=${checkOut}&guests=${guests}`
-    );
-  };
-
+const SearchForm = ({
+  city,
+  setCity,
+  checkIn,
+  setCheckIn,
+  checkOut,
+  setCheckOut,
+  guests,
+  setGuests,
+  handleSearch,
+}) => {
   return (
     <SCSearch>
-      <form onSubmit={handleSearch}>
+      <form onSubmit={(e) => handleSearch(e)}>
         <Row>
           <Col sm="12" md="6" lg="3">
             <div className="field-container">
@@ -35,17 +26,7 @@ const SearchForm = () => {
                 id="city"
                 placeholder="Anywhere"
                 value={city}
-                onChange={handleCityChange}
-              />
-            </div>
-          </Col>
-          <Col sm="12" md="6" lg="2">
-            <div className="field-container">
-              <label>CHECK-OUT</label>
-              <DatePicker
-                dateFormat="dd-MM-yyyy"
-                selected={checkOut}
-                onChange={(date) => setCheckOut(date)}
+                onChange={(e) => setCity(e.target.value)}
               />
             </div>
           </Col>
@@ -59,16 +40,29 @@ const SearchForm = () => {
               />
             </div>
           </Col>
+          <Col sm="12" md="6" lg="2">
+            <div className="field-container">
+              <label>CHECK-OUT</label>
+              <DatePicker
+                dateFormat="dd-MM-yyyy"
+                selected={checkOut}
+                onChange={(date) => setCheckOut(date)}
+              />
+            </div>
+          </Col>
           <Col sm="12" md="6" lg="3">
             <div className="field-container">
               <label>GUESTS</label>
               <select
                 name="guests"
                 id="guests"
+                className="guests-selector"
                 value={guests}
                 onChange={(e) => setGuests(e.target.value)}
               >
-                <option value="0">Guests</option>
+                <option value="*" disabled>
+                  Guests
+                </option>
                 <option value="1">1</option>
                 <option value="2">2</option>
                 <option value="3">3</option>
@@ -82,9 +76,9 @@ const SearchForm = () => {
             </div>
           </Col>
           <Col sm="12" lg="2">
-            <div className="field-container">
+            <div className="field-container btn">
               <button type="submit" className="submit-btn">
-                Submit
+                Search
               </button>
             </div>
           </Col>
@@ -109,8 +103,6 @@ const SCSearch = styled.div`
   text-transform: uppercase;
   color: #1e2022;
 
-  form {
-  }
   .field-container {
     display: flex;
     flex-direction: column;
@@ -123,11 +115,23 @@ const SCSearch = styled.div`
       align-items: flex-start;
     }
   }
-  .field-container[button] {
-    align-items: center;
+  .field-container.btn {
+    padding: 0;
+    @media screen and (min-width: 768px) {
+      align-items: center;
+    }
   }
   label {
     margin-bottom: 5px;
+  }
+  .guests-selector {
+    -moz-appearance: none; /* Firefox */
+    -webkit-appearance: none; /* Safari and Chrome */
+    appearance: none;
+    background: url('/dropdown-arrow.svg') no-repeat;
+    background-position-x: 94%;
+    background-position-y: 50%;
+    cursor: pointer;
   }
   .submit-btn {
     width: 100%;
@@ -172,6 +176,9 @@ const SCSearch = styled.div`
     padding: 0 17px;
     @media screen and (min-width: 768px) {
       height: 53px;
+    }
+    &:hover {
+      border-color: #f45757;
     }
   }
 `;

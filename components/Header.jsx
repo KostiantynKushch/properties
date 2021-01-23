@@ -12,7 +12,7 @@ const Header = ({ menuItems, logo }) => {
   const { pathname } = useRouter();
 
   return (
-    <header>
+    <SCHeader>
       <Container fluid="xl">
         <HeaderContainer>
           <SRow>
@@ -63,9 +63,19 @@ const Header = ({ menuItems, logo }) => {
           </div>
         </MobileMenu>
       </Container>
-    </header>
+    </SCHeader>
   );
 };
+
+const SCHeader = styled.header`
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: #fff;
+  z-index: 3;
+`;
 
 const Nav = styled.nav`
   height: 100%;
@@ -92,6 +102,8 @@ const MobileMenu = styled.nav`
   .mob-nav {
     display: none;
     z-index: 3;
+    -webkit-box-shadow: 1px 7px 30px -7px #f45757;
+    box-shadow: 1px 7px 30px -7px #f45757;
   }
   .mob-nav.show {
     display: initial;
@@ -108,6 +120,9 @@ const MobileMenu = styled.nav`
       left: 50%;
     }
     background: #fff;
+    @media screen and (min-width: 1042px) {
+      display: none;
+    }
   }
 `;
 

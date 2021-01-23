@@ -72,3 +72,86 @@ a {
     }
   }
 }
+.react-datepicker-popper {
+  .react-datepicker {
+    border: none;
+    background-color: #fff;
+    -webkit-box-shadow: 1px 7px 30px -7px #f45757;
+    box-shadow: 1px 7px 30px -7px #f45757;
+    &__triangle {
+      &:before {
+        border: none !important;
+      }
+    }
+    &__navigation {
+      outline: none;
+      &--previous {
+        border-right-color: #99a2aa;
+        &:hover {
+          border-right-color: #f45757;
+        }
+      }
+      &--next {
+        border-left-color: #99a2aa;
+        &:hover {
+          border-left-color: #f45757;
+        }
+      }
+    }
+    &__month-container {
+    }
+    &__header {
+      background-color: #fff;
+      border-bottom: 1px solid #f45757;
+    }
+    &__month {
+    }
+    &__current-month,
+    .react-datepicker-time__header,
+    .react-datepicker-year-header,
+    &__day-name,
+    &__day,
+    &__time-name {
+      font-family: 'Nunito', sans-serif;
+      color: #99a2aa;
+      font-weight: 600;
+      font-size: 14px;
+    }
+    &__day {
+      &:hover {
+        background-color: #ffeeee;
+        color: #f45757;
+      }
+    }
+    &__day--selected,
+    &__day--in-selecting-range,
+    &__day--in-range,
+    &__month-text--selected,
+    &__month-text--in-selecting-range,
+    &__month-text--in-range,
+    &__quarter-text--selected,
+    &__quarter-text--in-selecting-range,
+    &__quarter-text--in-range,
+    &__year-text--selected,
+    &__year-text--in-selecting-range,
+    &__year-text--in-range,
+    &__day--keyboard-selected,
+    &__month-text--keyboard-selected,
+    &__quarter-text--keyboard-selected,
+    &__year-text--keyboard-selected {
+      background-color: #f45757;
+      color: #fff;
+      outline: none;
+      &:hover {
+        background-color: #ffeeee;
+        color: #f45757;
+      }
+    }
+  }
+}
+
+.react-datepicker-popper[data-placement^='bottom'] .react-datepicker__triangle,
+.react-datepicker-popper[data-placement^='bottom']
+  .react-datepicker__triangle::before {
+  border-bottom-color: #ffffff !important;
+}
