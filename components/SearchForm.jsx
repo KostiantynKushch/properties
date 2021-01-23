@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Row, Col } from 'react-bootstrap';
@@ -36,7 +37,7 @@ const SearchForm = ({
               <DatePicker
                 dateFormat="dd-MM-yyyy"
                 selected={checkIn}
-                onChange={(date) => setCheckIn(date)}
+                onChange={(date) => setCheckIn(Date.parse(date))}
               />
             </div>
           </Col>
@@ -46,7 +47,7 @@ const SearchForm = ({
               <DatePicker
                 dateFormat="dd-MM-yyyy"
                 selected={checkOut}
-                onChange={(date) => setCheckOut(date)}
+                onChange={(date) => setCheckOut(Date.parse(date))}
               />
             </div>
           </Col>
@@ -88,7 +89,7 @@ const SearchForm = ({
   );
 };
 
-export default SearchForm;
+export default memo(SearchForm);
 
 const SCSearch = styled.div`
   width: 100%;

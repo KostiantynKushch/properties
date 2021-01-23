@@ -6,8 +6,8 @@ import { useRouter } from 'next/router';
 
 const HomeHeroSection = ({ heroTitle }) => {
   const [city, setCity] = useState('');
-  const [checkIn, setCheckIn] = useState(new Date());
-  const [checkOut, setCheckOut] = useState(new Date());
+  const [checkIn, setCheckIn] = useState(Date.parse(new Date()));
+  const [checkOut, setCheckOut] = useState(Date.parse(new Date()));
   const [guests, setGuests] = useState('*');
   const router = useRouter();
 
