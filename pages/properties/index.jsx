@@ -41,17 +41,25 @@ const properties = () => {
     guests: queryGuests,
   } = router.query;
 
-  const [city, setCity] = useState(router.query.city || '');
+  const [city, setCity] = useState('');
   const [checkIn, setCheckIn] = useState(Date.parse(new Date()));
   const [checkOut, setCheckOut] = useState(Date.parse(new Date()));
-  const [guests, setGuests] = useState(router.query.guests || '*');
+  const [guests, setGuests] = useState('*');
 
-  if (queryCheckIn && parseInt(queryCheckIn) !== checkIn) {
-    setCheckIn(parseInt(queryCheckIn));
-  }
-  if (queryCheckOut && parseInt(queryCheckOut) !== checkOut) {
-    setCheckOut(parseInt(queryCheckOut));
-  }
+  useEffect(() => {
+    if (queryCity) {
+      setCity(queryCity);
+    }
+    if (queryCheckIn) {
+      setCheckIn(parseInt(queryCheckIn));
+    }
+    if (queryCheckOut) {
+      setCheckOut(parseInt(queryCheckOut));
+    }
+    if (queryGuests) {
+      setGuests(queryGuests);
+    }
+  }, [router]);
 
   const handleSearch = (e) => {
     e.preventDefault();
