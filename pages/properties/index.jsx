@@ -7,7 +7,7 @@ import {
 } from '../../lib/Queries';
 import { initializeApollo } from '../../lib/apolloClient';
 import parse from 'html-react-parser';
-
+import styled from 'styled-components';
 import PageHead from '../../components/PageHead';
 import MainLayout from '../../components/MainLayout';
 import { useRouter } from 'next/router';
@@ -15,6 +15,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import InnerHeroSection from '../../components/InnerHeroSection';
 import TitleWithControlls from '../../components/TitleWithControlls';
 import PropSidebarFilter from '../../components/PropSidebarFilter';
+import InnerDownloadSection from '../../components/InnerDownloadSection';
 
 const properties = () => {
   // loading data
@@ -33,6 +34,7 @@ const properties = () => {
   if (error || settingsError || optionsError) return <p>Error :</p>;
 
   const { title, content } = data.pages.nodes[0];
+  const { acfOptions } = optionsData.pages.nodes[0];
 
   // search logic
   const router = useRouter();
@@ -82,12 +84,14 @@ const properties = () => {
   const [orderBy, setOrderBy] = useState(1);
   const [listView, setListView] = useState(false);
 
+  console.log(acfOptions);
+
   return (
     <>
       <PageHead page={title} />
       {settingsData && optionsData && (
         <MainLayout
-          options={optionsData.pages.nodes[0].acfOptions}
+          options={acfOptions}
           menuItems={settingsData.menus.nodes[0].menuItems.nodes}
         >
           <InnerHeroSection
@@ -112,16 +116,23 @@ const properties = () => {
             listView={listView}
             setListView={setListView}
           />
-          <Container>
-            <Row>
-              <Col md="8">
-                <p>cards</p>
-              </Col>
-              <Col md="4">
-                <PropSidebarFilter />
-              </Col>
-            </Row>
-          </Container>
+          <SCProperties>
+            <Container>
+              <Row>
+                <Col sm="12" lg="8">
+                  <p>cards</p>
+                </Col>
+                <Col sm="12" lg="4">
+                  <PropSidebarFilter />
+                </Col>
+              </Row>
+            </Container>
+          </SCProperties>
+          <InnerDownloadSection
+            title={acfOptions.downloadTitle}
+            description={acfOptions.downloadDescription}
+            downloadButtons={acfOptions.downloadButtons}
+          />
         </MainLayout>
       )}
     </>
@@ -151,3 +162,7 @@ export async function getStaticProps() {
 }
 
 export default memo(properties);
+
+const SCProperties = styled.div`
+  padding: 80px 0 120px;
+`;

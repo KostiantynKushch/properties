@@ -15,13 +15,13 @@ const PropSidebarFilter = () => {
                 <div className="option">
                   <label className="option__checkbox">
                     <input type="checkbox" name="option" value="option" />
-                    <span class="option__label">Option Name</span>
+                    <span className="option__label">Option Name</span>
                   </label>
                 </div>
                 <div className="option">
                   <label className="option__checkbox">
                     <input type="checkbox" name="option" value="option" />
-                    <span class="option__label">Option Name</span>
+                    <span className="option__label">Option Name</span>
                   </label>
                 </div>
               </Col>
@@ -39,7 +39,7 @@ const PropSidebarFilter = () => {
                 <div className="option">
                   <label className="option__checkbox">
                     <input type="checkbox" name="option" value="option" />
-                    <span class="option__label">Option Name</span>
+                    <span className="option__label">Guest Suite</span>
                   </label>
                 </div>
               </Col>
@@ -47,7 +47,7 @@ const PropSidebarFilter = () => {
                 <div className="option">
                   <label className="option__checkbox">
                     <input type="checkbox" name="option" value="option" />
-                    <span class="option__label">Option Name</span>
+                    <span className="option__label">Guesthouse</span>
                   </label>
                 </div>
               </Col>
@@ -64,14 +64,12 @@ export default PropSidebarFilter;
 const SCSidebar = styled.div`
   max-width: 360px;
   .wraper {
-    padding: 25px;
+    padding: 25px 25px 5px;
     background: #ffffff;
     box-shadow: 0px 2px 48px rgba(0, 0, 0, 0.06);
     border-radius: 4px;
 
     .controls-block {
-      border-bottom: 1px solid #eeeeee;
-
       &__header {
         font-family: Nunito;
         font-size: 18px;
@@ -132,7 +130,9 @@ const SCSidebar = styled.div`
       }
     }
     .controls-block + .controls-block {
+      border-top: 1px solid #eeeeee;
       margin-top: 20px;
+      padding-top: 20px;
     }
   }
 `;
