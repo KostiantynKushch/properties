@@ -11,8 +11,10 @@ import parse from 'html-react-parser';
 import PageHead from '../../components/PageHead';
 import MainLayout from '../../components/MainLayout';
 import { useRouter } from 'next/router';
+import { Container, Row, Col } from 'react-bootstrap';
 import InnerHeroSection from '../../components/InnerHeroSection';
 import TitleWithControlls from '../../components/TitleWithControlls';
+import PropSidebarFilter from '../../components/PropSidebarFilter';
 
 const properties = () => {
   // loading data
@@ -110,6 +112,16 @@ const properties = () => {
             listView={listView}
             setListView={setListView}
           />
+          <Container>
+            <Row>
+              <Col md="8">
+                <p>cards</p>
+              </Col>
+              <Col md="4">
+                <PropSidebarFilter />
+              </Col>
+            </Row>
+          </Container>
         </MainLayout>
       )}
     </>
