@@ -75,6 +75,11 @@ const properties = () => {
     }
   };
 
+  //   view settings
+  const [perPage, setPerPage] = useState(10);
+  const [orderBy, setOrderBy] = useState(1);
+  const [listView, setListView] = useState(false);
+
   return (
     <>
       <PageHead page={title} />
@@ -95,7 +100,16 @@ const properties = () => {
             handleSearch={handleSearch}
           />
 
-          <TitleWithControlls title={title} content={parse(content)} />
+          <TitleWithControlls
+            title={title}
+            content={parse(content)}
+            perPage={perPage}
+            setPerPage={setPerPage}
+            orderBy={orderBy}
+            setOrderBy={setOrderBy}
+            listView={listView}
+            setListView={setListView}
+          />
         </MainLayout>
       )}
     </>
