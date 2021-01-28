@@ -5,7 +5,6 @@ import { faThLarge, faListUl } from '@fortawesome/free-solid-svg-icons';
 
 const TitleWithControlls = ({
   title,
-  content,
   perPage,
   setPerPage,
   orderBy,

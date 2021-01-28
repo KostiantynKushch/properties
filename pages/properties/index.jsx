@@ -4,6 +4,7 @@ import {
   PROPERTIES_ARCHIVE_PAGE,
   GENERAL_SETTINGS,
   OPTIONS_PAGE,
+  GET_PROPERTIES,
 } from '../../lib/Queries';
 import { initializeApollo } from '../../lib/apolloClient';
 import parse from 'html-react-parser';
@@ -16,10 +17,18 @@ import InnerHeroSection from '../../components/InnerHeroSection';
 import TitleWithControlls from '../../components/TitleWithControlls';
 import PropSidebarFilter from '../../components/PropSidebarFilter';
 import InnerDownloadSection from '../../components/InnerDownloadSection';
+import PropertyCard from '../../components/PropertyCard';
 
 const properties = () => {
   // loading data
   const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);
+  const {
+    loading: propsLoading,
+    error: propsError,
+    data: propsData,
+  } = useQuery(GET_PROPERTIES, {
+    variables: { perPage: 10, offset: 0 },
+  });
   const {
     loding: settingsLoading,
     error: settingsError,
@@ -30,10 +39,8 @@ const properties = () => {
     error: optionsError,
     data: optionsData,
   } = useQuery(OPTIONS_PAGE);
-  if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
-  if (error || settingsError || optionsError) return <p>Error :</p>;
 
-  const { title, content } = data.pages.nodes[0];
+  const { title } = data.pages.nodes[0];
   const { acfOptions } = optionsData.pages.nodes[0];
 
   // search logic
@@ -84,7 +91,12 @@ const properties = () => {
   const [orderBy, setOrderBy] = useState(1);
   const [listView, setListView] = useState(false);
 
-  console.log(acfOptions);
+  if (loading || propsLoading || settingsLoading || optionsLoading)
+    return <p>Loading...</p>;
+  if (error || propsError || settingsError || optionsError)
+    return <p>Error :</p>;
+
+  console.log(propsData);
 
   return (
     <>
@@ -108,7 +120,6 @@ const properties = () => {
 
           <TitleWithControlls
             title={title}
-            content={parse(content)}
             perPage={perPage}
             setPerPage={setPerPage}
             orderBy={orderBy}
@@ -116,18 +127,40 @@ const properties = () => {
             listView={listView}
             setListView={setListView}
           />
-          <SCProperties>
-            <Container>
-              <Row>
-                <Col sm="12" lg="8">
-                  <p>cards</p>
-                </Col>
-                <Col sm="12" lg="4">
-                  <PropSidebarFilter />
-                </Col>
-              </Row>
-            </Container>
-          </SCProperties>
+          {propsData && (
+            <SCProperties>
+              <Container>
+                <Row>
+                  <Col sm="12" lg="8">
+                    <Row>
+                      {propsData.properties.nodes.map((property) => (
+                        <Col key={property.id}>
+                          <PropertyCard
+                            price={property.acfProperties.price}
+                            location={property.acfProperties.location}
+                            beds={property.acfProperties.highlights.beds}
+                            bathrooms={
+                              property.acfProperties.highlights.bathrooms
+                            }
+                            tvs={property.acfProperties.highlights.tvs}
+                            sqft={property.acfProperties.highlights.sqft}
+                            authorPic={property.author.node.avatar.url}
+                            authorName={property.author.node.name}
+                            date={property.date}
+                            slug={property.slug}
+                          />
+                        </Col>
+                      ))}
+                    </Row>
+                  </Col>
+                  <Col sm="12" lg="4">
+                    <PropSidebarFilter />
+                  </Col>
+                </Row>
+              </Container>
+            </SCProperties>
+          )}
+
           <InnerDownloadSection
             title={acfOptions.downloadTitle}
             description={acfOptions.downloadDescription}
@@ -144,6 +177,9 @@ export async function getStaticProps() {
 
   await apolloClient.query({
     query: PROPERTIES_ARCHIVE_PAGE,
+  });
+  await apolloClient.query({
+    query: GET_PROPERTIES,
   });
 
   await apolloClient.query({
