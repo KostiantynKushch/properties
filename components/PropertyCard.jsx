@@ -59,7 +59,7 @@ const PropertyCard = ({
               <FontAwesomeIcon icon={faBath} /> <span>{bathrooms}</span>
             </div>
             <div className="tvs">
-              <FontAwesomeIcon icon={faBed} /> <span>{tvs}</span>
+              <FontAwesomeIcon icon={faTv} /> <span>{tvs}</span>
             </div>
             <div className="sqft">
               <FontAwesomeIcon icon={faSquare} />{' '}
