@@ -44,7 +44,7 @@ const SCNotify = styled.div`
   .notification {
     position: fixed;
     z-index: 2;
-    top: 10px;
+    top: 90px;
     right: 10px;
     width: 100%;
     &__header {

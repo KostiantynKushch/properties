@@ -4,6 +4,7 @@ import {
   PROPERTIES_ARCHIVE_PAGE,
   GENERAL_SETTINGS,
   OPTIONS_PAGE,
+  GET_PROPERTIES_ID_TO_EXCLUDE,
   GET_PROPERTIES,
 } from '../../lib/Queries';
 import { initializeApollo } from '../../lib/apolloClient';
@@ -80,23 +81,47 @@ const properties = () => {
     }
   };
 
+  //   view settings
+  const [perPage, setPerPage] = useState(10);
+  const [orderBy, setOrderBy] = useState(1);
+  const [listView, setListView] = useState(false);
+  const [idsToExclude, setIdsToExclude] = useState([]);
+
+  const {
+    loading: excludeIDsLoading,
+    error: excludeIDsError,
+    data: excludeIDs,
+  } = useQuery(GET_PROPERTIES_ID_TO_EXCLUDE, {
+    variables: {
+      chekIn: '20210203',
+      checkOut: '20210207',
+    },
+  });
+
+  useEffect(() => {
+    if (excludeIDs) {
+      setIdsToExclude(excludeIDs.getPostIDsToExclude);
+    }
+  }, [excludeIDs]);
+
   const {
     loading: propsLoading,
     error: propsError,
     data: propsData,
   } = useQuery(GET_PROPERTIES, {
+    skip: !excludeIDs,
     variables: {
       perPage: 10,
       offset: 0,
       category: queryCity,
       guests: queryGuests,
+      dateOrder: 'ASC',
+      arrayToExclude: idsToExclude,
     },
   });
 
-  //   view settings
-  const [perPage, setPerPage] = useState(10);
-  const [orderBy, setOrderBy] = useState(1);
-  const [listView, setListView] = useState(false);
+  console.log(checkIn);
+  console.log(propsError);
 
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;
@@ -135,173 +160,178 @@ const properties = () => {
               <Row>
                 <Col sm="12" lg="8">
                   <Row>
-                    {propsLoading && (
-                      <>
-                        <Col md="6">
-                          <SkeletonTheme
-                            color="#F2F3F4"
-                            highlightColor="#fff"
-                            className="skeleton"
-                          >
-                            <div className="skeleton">
-                              <Skeleton height={230} />
-                              <div className="skeleton__card-body">
-                                <Skeleton
-                                  height={26}
-                                  width={172}
-                                  className="skeleton__location"
-                                />
-                                <Skeleton
-                                  height={26}
-                                  width={241}
-                                  className="skeleton__features"
-                                />
-                                <div className="skeleton__author author">
-                                  <div className="author__icon">
-                                    <Skeleton
-                                      circle={true}
-                                      height={60}
-                                      width={60}
-                                    />
+                    {excludeIDsLoading ||
+                      (propsLoading && (
+                        <>
+                          <Col md="6">
+                            <SkeletonTheme
+                              color="#F2F3F4"
+                              highlightColor="#fff"
+                              className="skeleton"
+                            >
+                              <div className="skeleton">
+                                <Skeleton height={230} />
+                                <div className="skeleton__card-body">
+                                  <Skeleton
+                                    height={26}
+                                    width={172}
+                                    className="skeleton__location"
+                                  />
+                                  <Skeleton
+                                    height={26}
+                                    width={241}
+                                    className="skeleton__features"
+                                  />
+                                  <div className="skeleton__author author">
+                                    <div className="author__icon">
+                                      <Skeleton
+                                        circle={true}
+                                        height={60}
+                                        width={60}
+                                      />
+                                    </div>
+                                    <div className="author__info">
+                                      <Skeleton height={26} width={88} />
+                                      <Skeleton height={26} width={152} />
+                                    </div>
                                   </div>
-                                  <div className="author__info">
-                                    <Skeleton height={26} width={88} />
-                                    <Skeleton height={26} width={152} />
+                                  <div className="skeleton__buttons">
+                                    <Skeleton height={20} width={60} />
+                                    <Skeleton height={50} width={150} />
                                   </div>
-                                </div>
-                                <div className="skeleton__buttons">
-                                  <Skeleton height={20} width={60} />
-                                  <Skeleton height={50} width={150} />
                                 </div>
                               </div>
-                            </div>
-                          </SkeletonTheme>
-                        </Col>
-                        <Col md="6">
-                          <SkeletonTheme
-                            color="#F2F3F4"
-                            highlightColor="#fff"
-                            className="skeleton"
-                          >
-                            <div className="skeleton">
-                              <Skeleton height={230} />
-                              <div className="skeleton__card-body">
-                                <Skeleton
-                                  height={26}
-                                  width={172}
-                                  className="skeleton__location"
-                                />
-                                <Skeleton
-                                  height={26}
-                                  width={241}
-                                  className="skeleton__features"
-                                />
-                                <div className="skeleton__author author">
-                                  <div className="author__icon">
-                                    <Skeleton
-                                      circle={true}
-                                      height={60}
-                                      width={60}
-                                    />
+                            </SkeletonTheme>
+                          </Col>
+                          <Col md="6">
+                            <SkeletonTheme
+                              color="#F2F3F4"
+                              highlightColor="#fff"
+                              className="skeleton"
+                            >
+                              <div className="skeleton">
+                                <Skeleton height={230} />
+                                <div className="skeleton__card-body">
+                                  <Skeleton
+                                    height={26}
+                                    width={172}
+                                    className="skeleton__location"
+                                  />
+                                  <Skeleton
+                                    height={26}
+                                    width={241}
+                                    className="skeleton__features"
+                                  />
+                                  <div className="skeleton__author author">
+                                    <div className="author__icon">
+                                      <Skeleton
+                                        circle={true}
+                                        height={60}
+                                        width={60}
+                                      />
+                                    </div>
+                                    <div className="author__info">
+                                      <Skeleton height={26} width={88} />
+                                      <Skeleton height={26} width={152} />
+                                    </div>
                                   </div>
-                                  <div className="author__info">
-                                    <Skeleton height={26} width={88} />
-                                    <Skeleton height={26} width={152} />
+                                  <div className="skeleton__buttons">
+                                    <Skeleton height={20} width={60} />
+                                    <Skeleton height={50} width={150} />
                                   </div>
-                                </div>
-                                <div className="skeleton__buttons">
-                                  <Skeleton height={20} width={60} />
-                                  <Skeleton height={50} width={150} />
                                 </div>
                               </div>
-                            </div>
-                          </SkeletonTheme>
-                        </Col>
-                        <Col md="6">
-                          <SkeletonTheme
-                            color="#F2F3F4"
-                            highlightColor="#fff"
-                            className="skeleton"
-                          >
-                            <div className="skeleton">
-                              <Skeleton height={230} />
-                              <div className="skeleton__card-body">
-                                <Skeleton
-                                  height={26}
-                                  width={172}
-                                  className="skeleton__location"
-                                />
-                                <Skeleton
-                                  height={26}
-                                  width={241}
-                                  className="skeleton__features"
-                                />
-                                <div className="skeleton__author author">
-                                  <div className="author__icon">
-                                    <Skeleton
-                                      circle={true}
-                                      height={60}
-                                      width={60}
-                                    />
+                            </SkeletonTheme>
+                          </Col>
+                          <Col md="6">
+                            <SkeletonTheme
+                              color="#F2F3F4"
+                              highlightColor="#fff"
+                              className="skeleton"
+                            >
+                              <div className="skeleton">
+                                <Skeleton height={230} />
+                                <div className="skeleton__card-body">
+                                  <Skeleton
+                                    height={26}
+                                    width={172}
+                                    className="skeleton__location"
+                                  />
+                                  <Skeleton
+                                    height={26}
+                                    width={241}
+                                    className="skeleton__features"
+                                  />
+                                  <div className="skeleton__author author">
+                                    <div className="author__icon">
+                                      <Skeleton
+                                        circle={true}
+                                        height={60}
+                                        width={60}
+                                      />
+                                    </div>
+                                    <div className="author__info">
+                                      <Skeleton height={26} width={88} />
+                                      <Skeleton height={26} width={152} />
+                                    </div>
                                   </div>
-                                  <div className="author__info">
-                                    <Skeleton height={26} width={88} />
-                                    <Skeleton height={26} width={152} />
+                                  <div className="skeleton__buttons">
+                                    <Skeleton height={20} width={60} />
+                                    <Skeleton height={50} width={150} />
                                   </div>
-                                </div>
-                                <div className="skeleton__buttons">
-                                  <Skeleton height={20} width={60} />
-                                  <Skeleton height={50} width={150} />
                                 </div>
                               </div>
-                            </div>
-                          </SkeletonTheme>
-                        </Col>
-                        <Col md="6">
-                          <SkeletonTheme
-                            color="#F2F3F4"
-                            highlightColor="#fff"
-                            className="skeleton"
-                          >
-                            <div className="skeleton">
-                              <Skeleton height={230} />
-                              <div className="skeleton__card-body">
-                                <Skeleton
-                                  height={26}
-                                  width={172}
-                                  className="skeleton__location"
-                                />
-                                <Skeleton
-                                  height={26}
-                                  width={241}
-                                  className="skeleton__features"
-                                />
-                                <div className="skeleton__author author">
-                                  <div className="author__icon">
-                                    <Skeleton
-                                      circle={true}
-                                      height={60}
-                                      width={60}
-                                    />
+                            </SkeletonTheme>
+                          </Col>
+                          <Col md="6">
+                            <SkeletonTheme
+                              color="#F2F3F4"
+                              highlightColor="#fff"
+                              className="skeleton"
+                            >
+                              <div className="skeleton">
+                                <Skeleton height={230} />
+                                <div className="skeleton__card-body">
+                                  <Skeleton
+                                    height={26}
+                                    width={172}
+                                    className="skeleton__location"
+                                  />
+                                  <Skeleton
+                                    height={26}
+                                    width={241}
+                                    className="skeleton__features"
+                                  />
+                                  <div className="skeleton__author author">
+                                    <div className="author__icon">
+                                      <Skeleton
+                                        circle={true}
+                                        height={60}
+                                        width={60}
+                                      />
+                                    </div>
+                                    <div className="author__info">
+                                      <Skeleton height={26} width={88} />
+                                      <Skeleton height={26} width={152} />
+                                    </div>
                                   </div>
-                                  <div className="author__info">
-                                    <Skeleton height={26} width={88} />
-                                    <Skeleton height={26} width={152} />
+                                  <div className="skeleton__buttons">
+                                    <Skeleton height={20} width={60} />
+                                    <Skeleton height={50} width={150} />
                                   </div>
-                                </div>
-                                <div className="skeleton__buttons">
-                                  <Skeleton height={20} width={60} />
-                                  <Skeleton height={50} width={150} />
                                 </div>
                               </div>
-                            </div>
-                          </SkeletonTheme>
-                        </Col>
-                      </>
-                    )}
-                    {propsError && <p>Properties can't be loaded</p>}
-                    {!propsLoading &&
+                            </SkeletonTheme>
+                          </Col>
+                        </>
+                      ))}
+                    {excludeIDsError ||
+                      (propsError && <p>Properties can't be loaded</p>)}
+                    {!excludeIDsLoading &&
+                      !propsLoading &&
+                      !excludeIDsError &&
                       !propsError &&
+                      excludeIDs &&
                       propsData &&
                       propsData.properties.nodes.map((property) => (
                         <Col key={property.id}>
