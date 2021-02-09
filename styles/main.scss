@@ -118,6 +118,12 @@ a {
       font-size: 14px;
     }
     &__day {
+      &--disabled {
+        background-color: #cfcfcf;
+        color: #fff;
+        border-radius: 4px;
+      }
+
       &:hover {
         background-color: #ffeeee;
         color: #f45757;

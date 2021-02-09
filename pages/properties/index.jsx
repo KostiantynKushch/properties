@@ -8,7 +8,7 @@ import {
   GET_PROPERTIES,
 } from '../../lib/Queries';
 import { initializeApollo } from '../../lib/apolloClient';
-import parse from 'html-react-parser';
+import { dateFormatForBackPiker } from '../../lib/utils';
 import styled from 'styled-components';
 import PageHead from '../../components/PageHead';
 import MainLayout from '../../components/MainLayout';
@@ -24,11 +24,19 @@ import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 const properties = () => {
   const [city, setCity] = useState('');
   const [checkIn, setCheckIn] = useState(Date.parse(new Date()));
+  const [rCheckIn, setRCheckIn] = useState(dateFormatForBackPiker(checkIn));
   const [checkOut, setCheckOut] = useState(Date.parse(new Date()));
+  const [rCheckOut, setRCheckOut] = useState(dateFormatForBackPiker(checkOut));
   const [guests, setGuests] = useState('*');
-  // loading data
-  const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);
+  //   view settings
+  const [perPage, setPerPage] = useState(10);
+  const [orderBy, setOrderBy] = useState('DESC');
+  const [listView, setListView] = useState(false);
+  const [idsToExclude, setIdsToExclude] = useState([]);
+  const [properitesToShow, setProperitesToShow] = useState([]);
 
+  // loading page data
+  const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);
   const {
     loding: settingsLoading,
     error: settingsError,
@@ -42,8 +50,9 @@ const properties = () => {
 
   const { title } = data.pages.nodes[0];
   const { acfOptions } = optionsData.pages.nodes[0];
+  // --- end loading page data
 
-  // search logic
+  // geting parameters from router query for properties search
   const router = useRouter();
   const {
     city: queryCity,
@@ -58,9 +67,11 @@ const properties = () => {
     }
     if (queryCheckIn) {
       setCheckIn(parseInt(queryCheckIn));
+      setRCheckIn(dateFormatForBackPiker(checkIn));
     }
     if (queryCheckOut) {
       setCheckOut(parseInt(queryCheckOut));
+      setRCheckOut(dateFormatForBackPiker(checkOut));
     }
     if (queryGuests) {
       setGuests(queryGuests);
@@ -80,12 +91,9 @@ const properties = () => {
       );
     }
   };
+  // --- end of search parameters
 
-  //   view settings
-  const [perPage, setPerPage] = useState(10);
-  const [orderBy, setOrderBy] = useState(1);
-  const [listView, setListView] = useState(false);
-  const [idsToExclude, setIdsToExclude] = useState([]);
+  //   display properties
 
   const {
     loading: excludeIDsLoading,
@@ -93,8 +101,8 @@ const properties = () => {
     data: excludeIDs,
   } = useQuery(GET_PROPERTIES_ID_TO_EXCLUDE, {
     variables: {
-      chekIn: '20210203',
-      checkOut: '20210207',
+      chekIn: rCheckIn,
+      checkOut: rCheckOut,
     },
   });
 
@@ -111,17 +119,16 @@ const properties = () => {
   } = useQuery(GET_PROPERTIES, {
     skip: !excludeIDs,
     variables: {
-      perPage: 10,
+      perPage: perPage,
       offset: 0,
       category: queryCity,
       guests: queryGuests,
-      dateOrder: 'ASC',
+      dateOrder: orderBy,
       arrayToExclude: idsToExclude,
+      properitesToShow: properitesToShow,
     },
   });
-
-  console.log(checkIn);
-  console.log(propsError);
+  console.log(data);
 
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;
@@ -355,7 +362,15 @@ const properties = () => {
                   </Row>
                 </Col>
                 <Col sm="12" lg="4">
-                  <PropSidebarFilter />
+                  <PropSidebarFilter
+                    amenities={data.propertyAmenities.nodes}
+                    extras={data.propertyExtras.nodes}
+                    accessibility={data.propertyAccessibilities.nodes}
+                    bedroom={data.propertyBedrooms.nodes}
+                    propertyType={data.propertyPropertyTypes.nodes}
+                    properitesToShow={properitesToShow}
+                    setProperitesToShow={setProperitesToShow}
+                  />
                 </Col>
               </Row>
             </Container>

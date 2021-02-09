@@ -29,7 +29,7 @@ const TitleWithControlls = ({
                     id="per-page"
                     className="per-page"
                     value={perPage}
-                    onChange={(e) => setPerPage(e.target.value)}
+                    onChange={(e) => setPerPage(parseInt(e.target.value))}
                   >
                     <option value="10">10</option>
                     <option value="20">20</option>
@@ -50,10 +50,8 @@ const TitleWithControlls = ({
                     value={orderBy}
                     onChange={(e) => setOrderBy(e.target.value)}
                   >
-                    <option value="1">Most recent</option>
-                    <option value="2">Oldest</option>
-                    <option value="3">Lovest Price</option>
-                    <option value="4">Higher Price</option>
+                    <option value="DESC">Most recent</option>
+                    <option value="ASC">Oldest</option>
                   </select>
                 </div>
                 <div className="mode-controls">

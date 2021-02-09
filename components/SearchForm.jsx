@@ -36,6 +36,7 @@ const SearchForm = ({
               <label>CHECK-IN</label>
               <DatePicker
                 dateFormat="dd-MM-yyyy"
+                minDate={new Date()}
                 selected={checkIn}
                 onChange={(date) => setCheckIn(Date.parse(date))}
               />
@@ -46,6 +47,7 @@ const SearchForm = ({
               <label>CHECK-OUT</label>
               <DatePicker
                 dateFormat="dd-MM-yyyy"
+                minDate={new Date()}
                 selected={checkOut}
                 onChange={(date) => setCheckOut(Date.parse(date))}
               />

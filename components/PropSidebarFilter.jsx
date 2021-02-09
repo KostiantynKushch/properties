@@ -1,10 +1,141 @@
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 
-const PropSidebarFilter = () => {
+const PropSidebarFilter = ({
+  amenities,
+  extras,
+  accessibility,
+  bedroom,
+  propertyType,
+}) => {
+  const handleFiltering = (e) => {
+    console.log(e.target.value);
+  };
   return (
     <SCSidebar>
       <div className="wraper">
+        <div className="controls-block">
+          <div className="controls-block__header">
+            <p>Amenities</p>
+          </div>
+          <div className=" controls-block__options controls-block__options--one-col">
+            <Row>
+              <Col>
+                {amenities &&
+                  amenities.map((item) => (
+                    <div className="option" key={item.id}>
+                      <label className="option__checkbox">
+                        <input
+                          type="checkbox"
+                          name="option"
+                          value={item.id}
+                          onClick={handleFiltering}
+                        />
+                        <span className="option__label">{item.name}</span>
+                      </label>
+                    </div>
+                  ))}
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <div className="controls-block">
+          <div className="controls-block__header">
+            <p>Extras</p>
+          </div>
+          <div className=" controls-block__options controls-block__options--one-col">
+            <Row>
+              <Col>
+                {extras &&
+                  extras.map((item) => (
+                    <div className="option" key={item.id}>
+                      <label className="option__checkbox">
+                        <input
+                          type="checkbox"
+                          name="option"
+                          value={item.name}
+                        />
+                        <span className="option__label">{item.name}</span>
+                      </label>
+                    </div>
+                  ))}
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <div className="controls-block">
+          <div className="controls-block__header">
+            <p>Accessibility</p>
+          </div>
+          <div className=" controls-block__options controls-block__options--one-col">
+            <Row>
+              <Col>
+                {accessibility &&
+                  accessibility.map((item) => (
+                    <div className="option" key={item.id}>
+                      <label className="option__checkbox">
+                        <input
+                          type="checkbox"
+                          name="option"
+                          value={item.name}
+                        />
+                        <span className="option__label">{item.name}</span>
+                      </label>
+                    </div>
+                  ))}
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <div className="controls-block">
+          <div className="controls-block__header">
+            <p>Bedroom</p>
+          </div>
+          <div className=" controls-block__options controls-block__options--one-col">
+            <Row>
+              <Col>
+                {bedroom &&
+                  bedroom.map((item) => (
+                    <div className="option" key={item.id}>
+                      <label className="option__checkbox">
+                        <input
+                          type="checkbox"
+                          name="option"
+                          value={item.name}
+                        />
+                        <span className="option__label">{item.name}</span>
+                      </label>
+                    </div>
+                  ))}
+              </Col>
+            </Row>
+          </div>
+        </div>
+        <div className="controls-block">
+          <div className="controls-block__header">
+            <p>Property Type</p>
+          </div>
+          <div className=" controls-block__options controls-block__options--one-col">
+            <Row>
+              <Col>
+                {propertyType &&
+                  propertyType.map((item) => (
+                    <div className="option" key={item.id}>
+                      <label className="option__checkbox">
+                        <input
+                          type="checkbox"
+                          name="option"
+                          value={item.name}
+                        />
+                        <span className="option__label">{item.name}</span>
+                      </label>
+                    </div>
+                  ))}
+              </Col>
+            </Row>
+          </div>
+        </div>
+
         <div className="controls-block">
           <div className="controls-block__header">
             <p>Amenities</p>
