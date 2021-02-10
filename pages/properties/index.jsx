@@ -128,8 +128,7 @@ const properties = () => {
       properitesToShow: properitesToShow,
     },
   });
-  console.log(data);
-
+  console.log(propsError);
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;
   return (
@@ -370,6 +369,9 @@ const properties = () => {
                     propertyType={data.propertyPropertyTypes.nodes}
                     properitesToShow={properitesToShow}
                     setProperitesToShow={setProperitesToShow}
+                    propsCategory={queryCity}
+                    propsGuests={queryGuests}
+                    propsArrayToExclude={idsToExclude}
                   />
                 </Col>
               </Row>

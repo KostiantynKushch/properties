@@ -1,3 +1,6 @@
+import { useState, useEffect } from 'react';
+import { useLazyQuery } from '@apollo/client';
+import { GET_PROPERTIES_IDS_TO_SHOW } from '../lib/Queries';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 
@@ -7,10 +10,57 @@ const PropSidebarFilter = ({
   accessibility,
   bedroom,
   propertyType,
+  propsCategory,
+  propsGuests,
+  propsArrayToExclude,
+  properitesToShow,
+  setProperitesToShow,
 }) => {
+  const [taxID, setTaxID] = useState({ id: '', status: false });
+
+  const [getIdsToShow, { loading, error, data }] = useLazyQuery(
+    GET_PROPERTIES_IDS_TO_SHOW,
+    {
+      variables: {
+        taxonomyID: taxID.id || '',
+        category: propsCategory,
+        guests: propsGuests,
+        arrayToExclude: propsArrayToExclude,
+      },
+    }
+  );
+
   const handleFiltering = (e) => {
-    console.log(e.target.value);
+    setTaxID({ ...taxID, id: e.target.value, status: e.target.checked });
+    getIdsToShow();
   };
+
+  useEffect(() => {
+    if (data && taxID.status && !loading) {
+      let tempArr = [];
+      data.propertyAmenity.properties.nodes.map((node) => {
+        tempArr.push(node.databaseId);
+      });
+
+      let filtered = properitesToShow.filter((item) => !tempArr.includes(item));
+      tempArr.map((node) => {
+        filtered.push(node.databaseId);
+      });
+
+      setProperitesToShow(...properitesToShow, tempArr);
+    } else if (data && !taxID.status && !loading) {
+      let tempArr = [];
+      data.propertyAmenity.properties.nodes.map((node) => {
+        tempArr.push(node.databaseId);
+      });
+
+      let filtered = properitesToShow.filter((item) => !tempArr.includes(item));
+
+      setProperitesToShow(...properitesToShow, filtered);
+    }
+    console.log(properitesToShow);
+  }, [loading, data, taxID]);
+
   return (
     <SCSidebar>
       <div className="wraper">
@@ -53,7 +103,8 @@ const PropSidebarFilter = ({
                         <input
                           type="checkbox"
                           name="option"
-                          value={item.name}
+                          value={item.id}
+                          onClick={handleFiltering}
                         />
                         <span className="option__label">{item.name}</span>
                       </label>
@@ -77,7 +128,8 @@ const PropSidebarFilter = ({
                         <input
                           type="checkbox"
                           name="option"
-                          value={item.name}
+                          value={item.id}
+                          onClick={handleFiltering}
                         />
                         <span className="option__label">{item.name}</span>
                       </label>
@@ -101,7 +153,8 @@ const PropSidebarFilter = ({
                         <input
                           type="checkbox"
                           name="option"
-                          value={item.name}
+                          value={item.id}
+                          onClick={handleFiltering}
                         />
                         <span className="option__label">{item.name}</span>
                       </label>
@@ -125,7 +178,8 @@ const PropSidebarFilter = ({
                         <input
                           type="checkbox"
                           name="option"
-                          value={item.name}
+                          value={item.id}
+                          onClick={handleFiltering}
                         />
                         <span className="option__label">{item.name}</span>
                       </label>
