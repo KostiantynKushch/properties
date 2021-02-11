@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import {
   SCSectionTag,
   SCSectionTagDark,
-} from '../styles/commonStyledComponens';
+} from '../styles/commonStyledComponents';
 
 const SectionHeader = ({ tag, tagType, title, description }) => {
   return (

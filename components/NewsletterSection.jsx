@@ -8,7 +8,7 @@ import {
 import { validateEmail } from '../lib/utils';
 import { Container, Row, Col, Spinner } from 'react-bootstrap';
 import styled from 'styled-components';
-import { SCSection } from '../styles/commonStyledComponens';
+import { SCSection } from '../styles/commonStyledComponents';
 import Notification from './Notification';
 import PropTypes from 'prop-types';
 

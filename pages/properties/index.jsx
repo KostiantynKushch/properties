@@ -15,7 +15,7 @@ import MainLayout from '../../components/MainLayout';
 import { useRouter } from 'next/router';
 import { Container, Row, Col } from 'react-bootstrap';
 import InnerHeroSection from '../../components/InnerHeroSection';
-import TitleWithControlls from '../../components/TitleWithControlls';
+import TitleWithControls from '../../components/TitleWithControls';
 import PropSidebarFilter from '../../components/PropSidebarFilter';
 import InnerDownloadSection from '../../components/InnerDownloadSection';
 import PropertyCard from '../../components/PropertyCard';
@@ -32,18 +32,19 @@ const properties = () => {
   const [perPage, setPerPage] = useState(10);
   const [orderBy, setOrderBy] = useState('DESC');
   const [listView, setListView] = useState(false);
+  //TODO: change to reactive variables https://www.apollographql.com/docs/react/local-state/reactive-variables/
   const [idsToExclude, setIdsToExclude] = useState([]);
-  const [properitesToShow, setProperitesToShow] = useState([]);
+  const [propertiesToShow, setPropertiesToShow] = useState([]);
 
   // loading page data
   const { loading, error, data } = useQuery(PROPERTIES_ARCHIVE_PAGE);
   const {
-    loding: settingsLoading,
+    loading: settingsLoading,
     error: settingsError,
     data: settingsData,
   } = useQuery(GENERAL_SETTINGS);
   const {
-    loding: optionsLoading,
+    loading: optionsLoading,
     error: optionsError,
     data: optionsData,
   } = useQuery(OPTIONS_PAGE);
@@ -52,7 +53,7 @@ const properties = () => {
   const { acfOptions } = optionsData.pages.nodes[0];
   // --- end loading page data
 
-  // geting parameters from router query for properties search
+  // getting parameters from router query for properties search
   const router = useRouter();
   const {
     city: queryCity,
@@ -101,7 +102,7 @@ const properties = () => {
     data: excludeIDs,
   } = useQuery(GET_PROPERTIES_ID_TO_EXCLUDE, {
     variables: {
-      chekIn: rCheckIn,
+      checkIn: rCheckIn,
       checkOut: rCheckOut,
     },
   });
@@ -125,10 +126,10 @@ const properties = () => {
       guests: queryGuests,
       dateOrder: orderBy,
       arrayToExclude: idsToExclude,
-      properitesToShow: properitesToShow,
+      propertiesToShow: propertiesToShow,
     },
   });
-  console.log(propsError);
+
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;
   return (
@@ -151,7 +152,7 @@ const properties = () => {
             handleSearch={handleSearch}
           />
 
-          <TitleWithControlls
+          <TitleWithControls
             title={title}
             perPage={perPage}
             setPerPage={setPerPage}
@@ -342,7 +343,9 @@ const properties = () => {
                       propsData.properties.nodes.map((property) => (
                         <Col key={property.id}>
                           <PropertyCard
-                            backgrounUrl={property.featuredImage.node.sourceUrl}
+                            backgroundUrl={
+                              property.featuredImage.node.sourceUrl
+                            }
                             price={property.acfProperties.price}
                             location={property.acfProperties.location}
                             beds={property.acfProperties.highlights.beds}
@@ -367,8 +370,8 @@ const properties = () => {
                     accessibility={data.propertyAccessibilities.nodes}
                     bedroom={data.propertyBedrooms.nodes}
                     propertyType={data.propertyPropertyTypes.nodes}
-                    properitesToShow={properitesToShow}
-                    setProperitesToShow={setProperitesToShow}
+                    propertiesToShow={propertiesToShow}
+                    setPropertiesToShow={setPropertiesToShow}
                     propsCategory={queryCity}
                     propsGuests={queryGuests}
                     propsArrayToExclude={idsToExclude}

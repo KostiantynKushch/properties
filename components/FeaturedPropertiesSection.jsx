@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import { SCSection } from '../styles/commonStyledComponens';
+import { SCSection } from '../styles/commonStyledComponents';
 import SectionHeader from './SectionHeader';
 import PropertyCard from './PropertyCard';
 

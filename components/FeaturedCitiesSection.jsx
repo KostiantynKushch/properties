@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import { SCSection } from '../styles/commonStyledComponens';
+import { SCSection } from '../styles/commonStyledComponents';
 import SectionHeader from './SectionHeader';
 import Link from 'next/link';
 import parse from 'html-react-parser';
@@ -46,7 +46,7 @@ const FeaturedCitiesSection = ({
                       <p className="city__listings">
                         {getListings(city.slug) || '0'} Listings
                       </p>
-                      <div className="city__exerpt">{parse(city.excerpt)}</div>
+                      <div className="city__excerpt">{parse(city.excerpt)}</div>
                     </a>
                   </Link>
                 </div>
@@ -116,7 +116,7 @@ const SCFeaturedCities = styled(SCSection)`
       color: #f45757;
       margin-bottom: 10px;
     }
-    &__exerpt {
+    &__excerpt {
       max-width: 212px;
       margin: 0 auto;
       color: #77838f;

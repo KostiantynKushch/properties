@@ -3,6 +3,7 @@ import { useLazyQuery } from '@apollo/client';
 import { GET_PROPERTIES_IDS_TO_SHOW } from '../lib/Queries';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
+import * as R from 'ramda';
 
 const PropSidebarFilter = ({
   amenities,
@@ -13,8 +14,8 @@ const PropSidebarFilter = ({
   propsCategory,
   propsGuests,
   propsArrayToExclude,
-  properitesToShow,
-  setProperitesToShow,
+  propertiesToShow,
+  setPropertiesToShow,
 }) => {
   const [taxID, setTaxID] = useState({ id: '', status: false });
 
@@ -35,35 +36,32 @@ const PropSidebarFilter = ({
     getIdsToShow();
   };
 
+  const getIdsArray = (arrayOfObjects) => {
+    let results = [];
+    arrayOfObjects.map((objectItem) => results.push(objectItem.databaseId));
+    return results;
+  };
+
   useEffect(() => {
     if (data && taxID.status && !loading) {
-      let tempArr = [];
-      data.propertyAmenity.properties.nodes.map((node) => {
-        tempArr.push(node.databaseId);
-      });
+      let tempArr = getIdsArray(data.propertyAmenity.properties.nodes);
 
-      let filtered = properitesToShow.filter((item) => !tempArr.includes(item));
-      tempArr.map((node) => {
-        filtered.push(node.databaseId);
-      });
-
-      setProperitesToShow(...properitesToShow, tempArr);
+      if (propertiesToShow && propertiesToShow.length > 0) {
+        setPropertiesToShow(R.union(propertiesToShow, tempArr));
+      } else {
+        setPropertiesToShow(tempArr);
+      }
     } else if (data && !taxID.status && !loading) {
-      let tempArr = [];
-      data.propertyAmenity.properties.nodes.map((node) => {
-        tempArr.push(node.databaseId);
-      });
-
-      let filtered = properitesToShow.filter((item) => !tempArr.includes(item));
-
-      setProperitesToShow(...properitesToShow, filtered);
+      let tempArr = getIdsArray(data.propertyAmenity.properties.nodes);
+      setPropertiesToShow(
+        propertiesToShow.filter((el) => !tempArr.includes(el))
+      );
     }
-    console.log(properitesToShow);
   }, [loading, data, taxID]);
 
   return (
     <SCSidebar>
-      <div className="wraper">
+      <div className="wrapper">
         <div className="controls-block">
           <div className="controls-block__header">
             <p>Amenities</p>
@@ -248,7 +246,7 @@ export default PropSidebarFilter;
 
 const SCSidebar = styled.div`
   max-width: 360px;
-  .wraper {
+  .wrapper {
     padding: 25px 25px 5px;
     background: #ffffff;
     box-shadow: 0px 2px 48px rgba(0, 0, 0, 0.06);

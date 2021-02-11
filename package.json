@@ -20,6 +20,7 @@
     "html-react-parser": "^0.14.2",
     "next": "10.0.3",
     "prop-types": "^15.7.2",
+    "ramda": "^0.27.1",
     "react": "17.0.1",
     "react-bootstrap": "^1.4.0",
     "react-datepicker": "^3.3.0",

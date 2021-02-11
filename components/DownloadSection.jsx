@@ -1,6 +1,6 @@
 import { Container, Row, Col } from 'react-bootstrap';
 import styled from 'styled-components';
-import { SCSection, SCSectionTagDark } from '../styles/commonStyledComponens';
+import { SCSection, SCSectionTagDark } from '../styles/commonStyledComponents';
 import PropTypes from 'prop-types';
 
 const DownloadSection = ({ backgroundUrl, tag, title, downloadButtons }) => {

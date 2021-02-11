@@ -3,7 +3,7 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThLarge, faListUl } from '@fortawesome/free-solid-svg-icons';
 
-const TitleWithControlls = ({
+const TitleWithControls = ({
   title,
   perPage,
   setPerPage,
@@ -16,7 +16,7 @@ const TitleWithControlls = ({
     setListView(!listView);
   };
   return (
-    <SCControlls>
+    <SCControls>
       <Container>
         <div className="delimiter">
           <Row>
@@ -77,13 +77,13 @@ const TitleWithControlls = ({
           </Row>
         </div>
       </Container>
-    </SCControlls>
+    </SCControls>
   );
 };
 
-export default TitleWithControlls;
+export default TitleWithControls;
 
-const SCControlls = styled.div`
+const SCControls = styled.div`
   .delimiter {
     padding: 80px 0 40px;
     border-bottom: 1px solid #eeeeee;
