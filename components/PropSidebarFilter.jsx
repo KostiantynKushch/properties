@@ -4,6 +4,7 @@ import { GET_PROPERTIES_IDS_TO_SHOW } from '../lib/Queries';
 import styled from 'styled-components';
 import { Row, Col } from 'react-bootstrap';
 import * as R from 'ramda';
+import { convertArrayToMatrix } from '../lib/utils';
 
 const PropSidebarFilter = ({
   amenities,
@@ -66,50 +67,57 @@ const PropSidebarFilter = ({
           <div className="controls-block__header">
             <p>Amenities</p>
           </div>
-          <div className=" controls-block__options controls-block__options--one-col">
-            <Row>
-              <Col>
-                {amenities &&
-                  amenities.map((item) => (
-                    <div className="option" key={item.id}>
-                      <label className="option__checkbox">
-                        <input
-                          type="checkbox"
-                          name="option"
-                          value={item.id}
-                          onClick={handleFiltering}
-                        />
-                        <span className="option__label">{item.name}</span>
-                      </label>
-                    </div>
+          <div className=" controls-block__options controls-block__options--two-cols">
+            {amenities &&
+              // display into two rows
+              convertArrayToMatrix(amenities).map((row, index) => (
+                <Row key={index}>
+                  {row.map((col) => (
+                    <Col key={col.id}>
+                      <div className="option">
+                        <label className="option__checkbox">
+                          <input
+                            type="checkbox"
+                            name="option"
+                            value={col.id}
+                            onClick={handleFiltering}
+                          />
+                          <span className="option__label">{col.name}</span>
+                        </label>
+                      </div>
+                    </Col>
                   ))}
-              </Col>
-            </Row>
+                </Row>
+              ))}
           </div>
         </div>
         <div className="controls-block">
           <div className="controls-block__header">
             <p>Extras</p>
           </div>
-          <div className=" controls-block__options controls-block__options--one-col">
-            <Row>
-              <Col>
-                {extras &&
-                  extras.map((item) => (
-                    <div className="option" key={item.id}>
-                      <label className="option__checkbox">
-                        <input
-                          type="checkbox"
-                          name="option"
-                          value={item.id}
-                          onClick={handleFiltering}
-                        />
-                        <span className="option__label">{item.name}</span>
-                      </label>
-                    </div>
+
+          <div className=" controls-block__options controls-block__options--two-cols">
+            {extras &&
+              // display into two rows
+              convertArrayToMatrix(extras).map((row, index) => (
+                <Row key={index}>
+                  {row.map((col) => (
+                    <Col key={col.id}>
+                      <div className="option">
+                        <label className="option__checkbox">
+                          <input
+                            type="checkbox"
+                            name="option"
+                            value={col.id}
+                            onClick={handleFiltering}
+                          />
+                          <span className="option__label">{col.name}</span>
+                        </label>
+                      </div>
+                    </Col>
                   ))}
-              </Col>
-            </Row>
+                </Row>
+              ))}
           </div>
         </div>
         <div className="controls-block">
@@ -166,75 +174,28 @@ const PropSidebarFilter = ({
           <div className="controls-block__header">
             <p>Property Type</p>
           </div>
-          <div className=" controls-block__options controls-block__options--one-col">
-            <Row>
-              <Col>
-                {propertyType &&
-                  propertyType.map((item) => (
-                    <div className="option" key={item.id}>
-                      <label className="option__checkbox">
-                        <input
-                          type="checkbox"
-                          name="option"
-                          value={item.id}
-                          onClick={handleFiltering}
-                        />
-                        <span className="option__label">{item.name}</span>
-                      </label>
-                    </div>
-                  ))}
-              </Col>
-            </Row>
-          </div>
-        </div>
-
-        <div className="controls-block">
-          <div className="controls-block__header">
-            <p>Amenities</p>
-          </div>
-          <div className=" controls-block__options controls-block__options--one-col">
-            <Row>
-              <Col>
-                <div className="option">
-                  <label className="option__checkbox">
-                    <input type="checkbox" name="option" value="option" />
-                    <span className="option__label">Option Name</span>
-                  </label>
-                </div>
-                <div className="option">
-                  <label className="option__checkbox">
-                    <input type="checkbox" name="option" value="option" />
-                    <span className="option__label">Option Name</span>
-                  </label>
-                </div>
-              </Col>
-            </Row>
-          </div>
-        </div>
-        <div className="controls-block">
-          <div className="controls-block__header">
-            <p>Amenities</p>
-          </div>
-
           <div className=" controls-block__options controls-block__options--two-cols">
-            <Row>
-              <Col>
-                <div className="option">
-                  <label className="option__checkbox">
-                    <input type="checkbox" name="option" value="option" />
-                    <span className="option__label">Guest Suite</span>
-                  </label>
-                </div>
-              </Col>
-              <Col>
-                <div className="option">
-                  <label className="option__checkbox">
-                    <input type="checkbox" name="option" value="option" />
-                    <span className="option__label">Guesthouse</span>
-                  </label>
-                </div>
-              </Col>
-            </Row>
+            {propertyType &&
+              // display into two rows
+              convertArrayToMatrix(propertyType).map((row, index) => (
+                <Row key={index}>
+                  {row.map((col) => (
+                    <Col key={col.id}>
+                      <div className="option">
+                        <label className="option__checkbox">
+                          <input
+                            type="checkbox"
+                            name="option"
+                            value={col.id}
+                            onClick={handleFiltering}
+                          />
+                          <span className="option__label">{col.name}</span>
+                        </label>
+                      </div>
+                    </Col>
+                  ))}
+                </Row>
+              ))}
           </div>
         </div>
       </div>
@@ -243,6 +204,8 @@ const PropSidebarFilter = ({
 };
 
 export default PropSidebarFilter;
+
+// TODO: add prop-types
 
 const SCSidebar = styled.div`
   max-width: 360px;
@@ -308,7 +271,18 @@ const SCSidebar = styled.div`
           background-size: 90%;
         }
         .option + .option {
-          margin-top: 20px;
+          margin-top: 10px;
+        }
+
+        &--two-cols {
+          .row {
+            .col + .col {
+              margin-left: -15px;
+            }
+          }
+          .row + .row {
+            margin-top: 10px;
+          }
         }
       }
     }

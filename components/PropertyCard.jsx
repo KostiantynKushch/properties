@@ -8,12 +8,12 @@ import {
   faMapMarkerAlt,
   faStar,
 } from '@fortawesome/free-solid-svg-icons';
-import { numFormating, dateFormat } from '../lib/utils';
+import { numFormatting as numFormatting, dateFormat } from '../lib/utils';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
 
 const PropertyCard = ({
-  backgrounUrl,
+  backgroundUrl: backgroundUrl,
   price,
   location,
   beds,
@@ -30,7 +30,7 @@ const PropertyCard = ({
       <div
         className="header"
         style={{
-          background: `url(${backgrounUrl}) no-repeat`,
+          background: `url(${backgroundUrl}) no-repeat`,
           backgroundSize: 'cover',
           backgroundPositionX: 0,
           backgroundPositionY: '100%',
@@ -63,7 +63,7 @@ const PropertyCard = ({
             </div>
             <div className="sqft">
               <FontAwesomeIcon icon={faSquare} />{' '}
-              <span>{numFormating(sqft)}</span>
+              <span>{numFormatting(sqft)}</span>
             </div>
           </div>
         </div>

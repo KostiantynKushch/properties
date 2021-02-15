@@ -129,6 +129,7 @@ const properties = () => {
       propertiesToShow: propertiesToShow,
     },
   });
+  //   TODO: add pagination
 
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;

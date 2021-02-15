@@ -27,7 +27,7 @@ const FeaturedPropertiesSection = ({
             {featuredProperties.map((property) => (
               <Col key={property.id} sm="12" lg="4">
                 <PropertyCard
-                  backgrounUrl={property.featuredImage.node.sourceUrl}
+                  backgroundUrl={property.featuredImage.node.sourceUrl}
                   price={property.acfProperties.price}
                   location={property.acfProperties.location}
                   beds={property.acfProperties.highlights.beds}

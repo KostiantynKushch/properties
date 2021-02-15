@@ -83,6 +83,8 @@ const TitleWithControls = ({
 
 export default TitleWithControls;
 
+// TODO: add prop-types
+
 const SCControls = styled.div`
   .delimiter {
     padding: 80px 0 40px;

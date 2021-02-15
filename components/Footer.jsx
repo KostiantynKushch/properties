@@ -38,7 +38,7 @@ const Footer = ({ options }) => {
                 </p>
                 <div className="footer-navigation__links">
                   {item.columns.navigationLinks.map((linkItem, index) => (
-                    <div className="link-wraper" key={index}>
+                    <div className="link-wrapper" key={index}>
                       <Link href={linkItem.link.url}>
                         <a className="footer-navigation__link">
                           <FontAwesomeIcon
