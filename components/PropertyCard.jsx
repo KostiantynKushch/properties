@@ -11,6 +11,7 @@ import {
 import { numFormatting as numFormatting, dateFormat } from '../lib/utils';
 import Link from 'next/link';
 import PropTypes from 'prop-types';
+import { Row, Col } from 'react-bootstrap';
 
 const PropertyCard = ({
   backgroundUrl: backgroundUrl,
@@ -24,76 +25,131 @@ const PropertyCard = ({
   authorName,
   date,
   slug,
+  excerpt,
+  large = false,
 }) => {
   return (
-    <SCPropertyCard>
-      <div
-        className="header"
-        style={{
-          background: `url(${backgroundUrl}) no-repeat`,
-          backgroundSize: 'cover',
-          backgroundPositionX: 0,
-          backgroundPositionY: '100%',
-        }}
-      >
-        <div className="header__overlay"></div>
+    <>
+      {!large ? (
+        <SCPropertyCard>
+          <div
+            className="header"
+            style={{
+              background: `url(${backgroundUrl}) no-repeat`,
+              backgroundSize: 'cover',
+              backgroundPositionX: 0,
+              backgroundPositionY: '100%',
+            }}
+          >
+            <div className="header__overlay"></div>
 
-        <div className="price">
-          <p>
-            {' '}
-            <span className="price__amount">${price}</span> / Night
-          </p>
-        </div>
-      </div>
-      <div className="body">
-        <div className="body__main-info info">
-          <div className="info__location">
-            <FontAwesomeIcon icon={faMapMarkerAlt} className="marker" />
-            {location}
-          </div>
-          <div className="info__features">
-            <div className="beds">
-              <FontAwesomeIcon icon={faBed} /> <span>{beds}</span>
-            </div>
-            <div className="bathrooms">
-              <FontAwesomeIcon icon={faBath} /> <span>{bathrooms}</span>
-            </div>
-            <div className="tvs">
-              <FontAwesomeIcon icon={faTv} /> <span>{tvs}</span>
-            </div>
-            <div className="sqft">
-              <FontAwesomeIcon icon={faSquare} />{' '}
-              <span>{numFormatting(sqft)}</span>
+            <div className="price">
+              <p>
+                {' '}
+                <span className="price__amount">${price}</span> / Night
+              </p>
             </div>
           </div>
-        </div>
-        <div className="body__author author">
-          <div className="author__picture">
-            <img src={authorPic} alt={authorName} />
-          </div>
-          <div className="author__details details">
-            <div className="details__author-name">{authorName}</div>
-            <div className="details__publish-date">
-              <span>Listed on </span>
-              {dateFormat(date)}
+          <div className="body">
+            <div className="body__main-info info">
+              <div className="info__location">
+                <FontAwesomeIcon icon={faMapMarkerAlt} className="marker" />
+                {location}
+              </div>
+              <div className="info__features">
+                <div className="beds">
+                  <FontAwesomeIcon icon={faBed} /> <span>{beds}</span>
+                </div>
+                <div className="bathrooms">
+                  <FontAwesomeIcon icon={faBath} /> <span>{bathrooms}</span>
+                </div>
+                <div className="tvs">
+                  <FontAwesomeIcon icon={faTv} /> <span>{tvs}</span>
+                </div>
+                <div className="sqft">
+                  <FontAwesomeIcon icon={faSquare} />{' '}
+                  <span>{numFormatting(sqft)}</span>
+                </div>
+              </div>
+            </div>
+            <div className="body__author author">
+              <div className="author__picture">
+                <img src={authorPic} alt={authorName} />
+              </div>
+              <div className="author__details details">
+                <div className="details__author-name">{authorName}</div>
+                <div className="details__publish-date">
+                  <span>Listed on </span>
+                  {dateFormat(date)}
+                </div>
+              </div>
+            </div>
+            <div className="body__actions actions">
+              <div className="actions__save">
+                <FontAwesomeIcon icon={faStar} className="star-icon" />
+                <span>Save</span>
+              </div>
+              <Link href={`/properties/${slug}`}>
+                <div className="actions__details">
+                  <a>Details</a>
+                </div>
+              </Link>
             </div>
           </div>
-        </div>
-        <div className="body__actions actions">
-          <div className="actions__save">
-            <FontAwesomeIcon icon={faStar} className="star-icon" />
-            <span>Save</span>
+        </SCPropertyCard>
+      ) : (
+        <SCPropertyCardLarge>
+          <div className="card">
+            <Row>
+              <Col className="col-4">
+                <div className="card__aside">
+                  <img src={backgroundUrl} alt={slug} />
+                  <div className="price">
+                    <p>
+                      <span className="price__amount">${price}</span> / Night
+                    </p>
+                  </div>
+                </div>
+              </Col>
+              <Col className="col-8">
+                <div className="card__info info">
+                  <div className="info__location">
+                    <FontAwesomeIcon icon={faMapMarkerAlt} className="marker" />
+                    {location}
+                  </div>
+                  <div className="info__features">
+                    <div className="feature beds">
+                      <FontAwesomeIcon icon={faBed} /> <span>{beds}</span>
+                    </div>
+                    <div className="feature bathrooms">
+                      <FontAwesomeIcon icon={faBath} /> <span>{bathrooms}</span>
+                    </div>
+                    <div className="feature tvs">
+                      <FontAwesomeIcon icon={faTv} /> <span>{tvs}</span>
+                    </div>
+                    <div className="feature sqft">
+                      <FontAwesomeIcon icon={faSquare} />{' '}
+                      <span>{numFormatting(sqft)}</span>
+                    </div>
+                  </div>
+                  <div className="info__excerpt">
+                    {excerpt ? (
+                      <p>{excerpt}</p>
+                    ) : (
+                      <p>will be added letter from content</p>
+                    )}
+                  </div>
+                </div>
+              </Col>
+            </Row>
           </div>
-          <Link href={`/properties/${slug}`}>
-            <div className="actions__details">
-              <a>Details</a>
-            </div>
-          </Link>
-        </div>
-      </div>
-    </SCPropertyCard>
+        </SCPropertyCardLarge>
+      )}
+    </>
   );
 };
+
+// TODO: excerpt: if excerpt === null - place text from content fields
 
 export default PropertyCard;
 
@@ -234,6 +290,39 @@ const SCPropertyCard = styled.div`
         a {
           color: #ffeeee;
         }
+      }
+    }
+  }
+`;
+
+const SCPropertyCardLarge = styled.div`
+  .card {
+    &__aside {
+      position: relative;
+      img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        object-position: 0 100%;
+      }
+      .price {
+        position: absolute;
+        bottom: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        color: #fff;
+        p {
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+  .info {
+    &__features {
+      display: flex;
+      align-items: center;
+      .feature + .feature {
+        margin-left: 20px;
       }
     }
   }

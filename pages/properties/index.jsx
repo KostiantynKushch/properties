@@ -19,7 +19,7 @@ import TitleWithControls from '../../components/TitleWithControls';
 import PropSidebarFilter from '../../components/PropSidebarFilter';
 import InnerDownloadSection from '../../components/InnerDownloadSection';
 import PropertyCard from '../../components/PropertyCard';
-import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import PropertiesPreloader from '../../components/PropertiesPreloader';
 
 const properties = () => {
   const [city, setCity] = useState('');
@@ -131,6 +131,8 @@ const properties = () => {
   });
   //   TODO: add pagination
 
+  console.log(propsData); //TODO: add excerpt to properties (missed in graphql)
+
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;
   return (
@@ -170,168 +172,7 @@ const properties = () => {
                   <Row>
                     {excludeIDsLoading ||
                       (propsLoading && (
-                        <>
-                          <Col md="6">
-                            <SkeletonTheme
-                              color="#F2F3F4"
-                              highlightColor="#fff"
-                              className="skeleton"
-                            >
-                              <div className="skeleton">
-                                <Skeleton height={230} />
-                                <div className="skeleton__card-body">
-                                  <Skeleton
-                                    height={26}
-                                    width={172}
-                                    className="skeleton__location"
-                                  />
-                                  <Skeleton
-                                    height={26}
-                                    width={241}
-                                    className="skeleton__features"
-                                  />
-                                  <div className="skeleton__author author">
-                                    <div className="author__icon">
-                                      <Skeleton
-                                        circle={true}
-                                        height={60}
-                                        width={60}
-                                      />
-                                    </div>
-                                    <div className="author__info">
-                                      <Skeleton height={26} width={88} />
-                                      <Skeleton height={26} width={152} />
-                                    </div>
-                                  </div>
-                                  <div className="skeleton__buttons">
-                                    <Skeleton height={20} width={60} />
-                                    <Skeleton height={50} width={150} />
-                                  </div>
-                                </div>
-                              </div>
-                            </SkeletonTheme>
-                          </Col>
-                          <Col md="6">
-                            <SkeletonTheme
-                              color="#F2F3F4"
-                              highlightColor="#fff"
-                              className="skeleton"
-                            >
-                              <div className="skeleton">
-                                <Skeleton height={230} />
-                                <div className="skeleton__card-body">
-                                  <Skeleton
-                                    height={26}
-                                    width={172}
-                                    className="skeleton__location"
-                                  />
-                                  <Skeleton
-                                    height={26}
-                                    width={241}
-                                    className="skeleton__features"
-                                  />
-                                  <div className="skeleton__author author">
-                                    <div className="author__icon">
-                                      <Skeleton
-                                        circle={true}
-                                        height={60}
-                                        width={60}
-                                      />
-                                    </div>
-                                    <div className="author__info">
-                                      <Skeleton height={26} width={88} />
-                                      <Skeleton height={26} width={152} />
-                                    </div>
-                                  </div>
-                                  <div className="skeleton__buttons">
-                                    <Skeleton height={20} width={60} />
-                                    <Skeleton height={50} width={150} />
-                                  </div>
-                                </div>
-                              </div>
-                            </SkeletonTheme>
-                          </Col>
-                          <Col md="6">
-                            <SkeletonTheme
-                              color="#F2F3F4"
-                              highlightColor="#fff"
-                              className="skeleton"
-                            >
-                              <div className="skeleton">
-                                <Skeleton height={230} />
-                                <div className="skeleton__card-body">
-                                  <Skeleton
-                                    height={26}
-                                    width={172}
-                                    className="skeleton__location"
-                                  />
-                                  <Skeleton
-                                    height={26}
-                                    width={241}
-                                    className="skeleton__features"
-                                  />
-                                  <div className="skeleton__author author">
-                                    <div className="author__icon">
-                                      <Skeleton
-                                        circle={true}
-                                        height={60}
-                                        width={60}
-                                      />
-                                    </div>
-                                    <div className="author__info">
-                                      <Skeleton height={26} width={88} />
-                                      <Skeleton height={26} width={152} />
-                                    </div>
-                                  </div>
-                                  <div className="skeleton__buttons">
-                                    <Skeleton height={20} width={60} />
-                                    <Skeleton height={50} width={150} />
-                                  </div>
-                                </div>
-                              </div>
-                            </SkeletonTheme>
-                          </Col>
-                          <Col md="6">
-                            <SkeletonTheme
-                              color="#F2F3F4"
-                              highlightColor="#fff"
-                              className="skeleton"
-                            >
-                              <div className="skeleton">
-                                <Skeleton height={230} />
-                                <div className="skeleton__card-body">
-                                  <Skeleton
-                                    height={26}
-                                    width={172}
-                                    className="skeleton__location"
-                                  />
-                                  <Skeleton
-                                    height={26}
-                                    width={241}
-                                    className="skeleton__features"
-                                  />
-                                  <div className="skeleton__author author">
-                                    <div className="author__icon">
-                                      <Skeleton
-                                        circle={true}
-                                        height={60}
-                                        width={60}
-                                      />
-                                    </div>
-                                    <div className="author__info">
-                                      <Skeleton height={26} width={88} />
-                                      <Skeleton height={26} width={152} />
-                                    </div>
-                                  </div>
-                                  <div className="skeleton__buttons">
-                                    <Skeleton height={20} width={60} />
-                                    <Skeleton height={50} width={150} />
-                                  </div>
-                                </div>
-                              </div>
-                            </SkeletonTheme>
-                          </Col>
-                        </>
+                        <PropertiesPreloader listView={listView} />
                       ))}
                     {excludeIDsError ||
                       (propsError && <p>Properties can't be loaded</p>)}
@@ -342,7 +183,10 @@ const properties = () => {
                       excludeIDs &&
                       propsData &&
                       propsData.properties.nodes.map((property) => (
-                        <Col key={property.id}>
+                        <Col
+                          key={property.id}
+                          className={`${listView ? 'col-12' : ''}`}
+                        >
                           <PropertyCard
                             backgroundUrl={
                               property.featuredImage.node.sourceUrl
@@ -359,6 +203,8 @@ const properties = () => {
                             authorName={property.author.node.name}
                             date={property.date}
                             slug={property.slug}
+                            excerpt={property.excerpt}
+                            large={listView}
                           />
                         </Col>
                       ))}
