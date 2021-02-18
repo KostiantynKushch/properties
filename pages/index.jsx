@@ -13,12 +13,12 @@ import { useQuery } from '@apollo/client';
 export default function Home() {
   const { loading, error, data } = useQuery(HOME_PAGE);
   const {
-    loding: settingsLoading,
+    loading: settingsLoading,
     error: settingsError,
     data: settingsData,
   } = useQuery(GENERAL_SETTINGS);
   const {
-    loding: optionsLoading,
+    loading: optionsLoading,
     error: optionsError,
     data: optionsData,
   } = useQuery(OPTIONS_PAGE);

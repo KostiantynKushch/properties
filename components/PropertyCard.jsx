@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import styled from 'styled-components';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -151,7 +152,7 @@ const PropertyCard = ({
 
 // TODO: excerpt: if excerpt === null - place text from content fields
 
-export default PropertyCard;
+export default memo(PropertyCard);
 
 PropertyCard.propTypes = {
   slug: PropTypes.string.isRequired,

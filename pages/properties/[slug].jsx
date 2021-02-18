@@ -7,12 +7,12 @@ import { useRouter } from 'next/router';
 
 const properties = () => {
   const {
-    loding: settingsLoading,
+    loading: settingsLoading,
     error: settingsError,
     data: settingsData,
   } = useQuery(GENERAL_SETTINGS);
   const {
-    loding: optionsLoading,
+    loading: optionsLoading,
     error: optionsError,
     data: optionsData,
   } = useQuery(OPTIONS_PAGE);

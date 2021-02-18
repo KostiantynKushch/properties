@@ -1,4 +1,4 @@
-import { useState, useEffect, memo } from 'react';
+import { useState, useEffect, useRef, memo } from 'react';
 import { useQuery } from '@apollo/client';
 import {
   PROPERTIES_ARCHIVE_PAGE,
@@ -20,6 +20,8 @@ import PropSidebarFilter from '../../components/PropSidebarFilter';
 import InnerDownloadSection from '../../components/InnerDownloadSection';
 import PropertyCard from '../../components/PropertyCard';
 import PropertiesPreloader from '../../components/PropertiesPreloader';
+import PropertiesPagination from '../../components/PropertiesPagination';
+import range from 'ramda/src/range';
 
 const properties = () => {
   const [city, setCity] = useState('');
@@ -29,7 +31,11 @@ const properties = () => {
   const [rCheckOut, setRCheckOut] = useState(dateFormatForBackPiker(checkOut));
   const [guests, setGuests] = useState('*');
   //   view settings
+  const [totalPosts, setTotalPosts] = useState(0);
+  const [offSetPagination, setOffSetPagination] = useState(0);
   const [perPage, setPerPage] = useState(10);
+  const [pages, setPages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(0);
   const [orderBy, setOrderBy] = useState('DESC');
   const [listView, setListView] = useState(false);
   //TODO: change to reactive variables https://www.apollographql.com/docs/react/local-state/reactive-variables/
@@ -121,7 +127,7 @@ const properties = () => {
     skip: !excludeIDs,
     variables: {
       perPage: perPage,
-      offset: 0,
+      offset: offSetPagination,
       category: queryCity,
       guests: queryGuests,
       dateOrder: orderBy,
@@ -129,12 +135,50 @@ const properties = () => {
       propertiesToShow: propertiesToShow,
     },
   });
-  //   TODO: add pagination
 
-  console.log(propsData); //TODO: add excerpt to properties (missed in graphql)
+  // start pagination
+  useEffect(() => {
+    setPages(range(1, Math.ceil(totalPosts / perPage + 1), 1));
+  }, [totalPosts, perPage]);
+
+  useEffect(() => {
+    if (pages.length > 1) {
+      setCurrentPage(1);
+    }
+  }, [pages]);
+
+  const getOffsetNumber = (perPage, currentPage, clickedPage) => {
+    if (clickedPage === currentPage) return;
+    if (clickedPage === 1) return 0;
+    if (clickedPage > 1) return perPage * (clickedPage - 1);
+  };
+
+  const titleRef = useRef(null);
+
+  const scrollToTitle = () =>
+    titleRef.current.scrollIntoView({
+      behavior: 'smooth',
+    });
+
+  const handlePageSwitching = (e) => {
+    const clickedPage = parseInt(e.target.value);
+    setCurrentPage(clickedPage);
+    setOffSetPagination(getOffsetNumber(perPage, currentPage, clickedPage));
+    scrollToTitle();
+  };
+  // end pagination
+
+  //TODO: add excerpt to properties (missed in graphql)
+
+  useEffect(() => {
+    if (!propsLoading && !propsError && propsData) {
+      setTotalPosts(propsData.properties.pageInfo.offsetPagination.total);
+    }
+  }, [propsData]);
 
   if (loading || settingsLoading || optionsLoading) return <p>Loading...</p>;
   if (error || settingsError || optionsError) return <p>Error :</p>;
+
   return (
     <>
       <PageHead page={title} />
@@ -156,6 +200,7 @@ const properties = () => {
           />
 
           <TitleWithControls
+            ref={titleRef}
             title={title}
             perPage={perPage}
             setPerPage={setPerPage}
@@ -208,6 +253,17 @@ const properties = () => {
                           />
                         </Col>
                       ))}
+                  </Row>
+                  <Row>
+                    <Col>
+                      <div className="pagination-wrapper">
+                        <PropertiesPagination
+                          pages={pages}
+                          currentPage={currentPage}
+                          handlePageSwitching={handlePageSwitching}
+                        />
+                      </div>
+                    </Col>
                   </Row>
                 </Col>
                 <Col sm="12" lg="4">
@@ -297,5 +353,11 @@ const SCProperties = styled.div`
         justify-content: center;
       }
     }
+  }
+  .pagination-wrapper {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;

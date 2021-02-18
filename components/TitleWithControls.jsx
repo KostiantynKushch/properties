@@ -1,85 +1,83 @@
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 import { Container, Row, Col } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faThLarge, faListUl } from '@fortawesome/free-solid-svg-icons';
 
-const TitleWithControls = ({
-  title,
-  perPage,
-  setPerPage,
-  orderBy,
-  setOrderBy,
-  listView,
-  setListView,
-}) => {
-  const toggleView = () => {
-    setListView(!listView);
-  };
-  return (
-    <SCControls>
-      <Container>
-        <div className="delimiter">
-          <Row>
-            <Col sm="12" md="8">
-              <div className="info">
-                <h1>300+ Places to Stay</h1>
-                <div className="info__displayed-items">
-                  <select
-                    name="per-page"
-                    id="per-page"
-                    className="per-page"
-                    value={perPage}
-                    onChange={(e) => setPerPage(parseInt(e.target.value))}
-                  >
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="30">30</option>
-                    <option value="40">40</option>
-                    <option value="50">50</option>
-                  </select>
-                  <span>Showing 1-10 of 178</span>
+const TitleWithControls = forwardRef(
+  (
+    { title, perPage, setPerPage, orderBy, setOrderBy, listView, setListView },
+    ref
+  ) => {
+    const toggleView = () => {
+      setListView(!listView);
+    };
+    return (
+      <SCControls ref={ref}>
+        <Container>
+          <div className="delimiter">
+            <Row>
+              <Col sm="12" md="8">
+                <div className="info">
+                  <h1>300+ Places to Stay</h1>
+                  <div className="info__displayed-items">
+                    <select
+                      name="per-page"
+                      id="per-page"
+                      className="per-page"
+                      value={perPage}
+                      onChange={(e) => setPerPage(parseInt(e.target.value))}
+                    >
+                      <option value="10">10</option>
+                      <option value="20">20</option>
+                      <option value="30">30</option>
+                      <option value="40">40</option>
+                      <option value="50">50</option>
+                    </select>
+                    <span>Showing 1-10 of 178</span>
+                  </div>
                 </div>
-              </div>
-            </Col>
-            <Col sm="12" md="4">
-              <div className="view-mode">
-                <div className="order-by">
-                  <select
-                    name="order-by"
-                    className="order-by__select"
-                    value={orderBy}
-                    onChange={(e) => setOrderBy(e.target.value)}
-                  >
-                    <option value="DESC">Most recent</option>
-                    <option value="ASC">Oldest</option>
-                  </select>
+              </Col>
+              <Col sm="12" md="4">
+                <div className="view-mode">
+                  <div className="order-by">
+                    <select
+                      name="order-by"
+                      className="order-by__select"
+                      value={orderBy}
+                      onChange={(e) => setOrderBy(e.target.value)}
+                    >
+                      <option value="DESC">Most recent</option>
+                      <option value="ASC">Oldest</option>
+                    </select>
+                  </div>
+                  <div className="mode-controls">
+                    <span
+                      onClick={toggleView}
+                      className={`mode-controls__control mode-controls__tile ${
+                        listView ? '' : 'mode-controls__tile--active'
+                      }`}
+                    >
+                      <FontAwesomeIcon icon={faThLarge} className="icon" />
+                    </span>
+                    <span
+                      onClick={toggleView}
+                      className={`mode-controls__control mode-controls__list ${
+                        listView ? 'mode-controls__list--active' : ''
+                      }`}
+                    >
+                      <FontAwesomeIcon icon={faListUl} className="icon" />
+                    </span>
+                  </div>
                 </div>
-                <div className="mode-controls">
-                  <span
-                    onClick={toggleView}
-                    className={`mode-controls__control mode-controls__tile ${
-                      listView ? '' : 'mode-controls__tile--active'
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faThLarge} className="icon" />
-                  </span>
-                  <span
-                    onClick={toggleView}
-                    className={`mode-controls__control mode-controls__list ${
-                      listView ? 'mode-controls__list--active' : ''
-                    }`}
-                  >
-                    <FontAwesomeIcon icon={faListUl} className="icon" />
-                  </span>
-                </div>
-              </div>
-            </Col>
-          </Row>
-        </div>
-      </Container>
-    </SCControls>
-  );
-};
+              </Col>
+            </Row>
+          </div>
+        </Container>
+      </SCControls>
+    );
+  }
+);
 
 export default TitleWithControls;
 
