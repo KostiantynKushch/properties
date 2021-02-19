@@ -296,11 +296,15 @@ const SCPropertyCard = styled.div`
   }
 `;
 
-const SCPropertyCardLarge = styled.div`
+const SCPropertyCardLarge = styled(SCPropertyCard)`
+  max-width: initial;
   .card {
+    border: none;
     &__aside {
       position: relative;
+      margin: 25px 0 25px 25px;
       img {
+        border-radius: 4px;
         width: 100%;
         height: 160px;
         object-fit: cover;
@@ -319,9 +323,17 @@ const SCPropertyCardLarge = styled.div`
     }
   }
   .info {
+    padding: 25px 20px 25px 0;
+    &__location {
+      margin-bottom: 10px;
+    }
     &__features {
       display: flex;
       align-items: center;
+      justify-content: flex-start;
+      border-bottom: 1px solid #eeeeee;
+      padding-bottom: 20px;
+      margin-bottom: 20px;
       .feature + .feature {
         margin-left: 20px;
       }

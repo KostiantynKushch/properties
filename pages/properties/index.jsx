@@ -18,7 +18,7 @@ import InnerHeroSection from '../../components/InnerHeroSection';
 import TitleWithControls from '../../components/TitleWithControls';
 import PropSidebarFilter from '../../components/PropSidebarFilter';
 import InnerDownloadSection from '../../components/InnerDownloadSection';
-import PropertyCard from '../../components/PropertyCard';
+import PropertiesCardsList from '../../components/PropertiesCardsList';
 import PropertiesPreloader from '../../components/PropertiesPreloader';
 import PropertiesPagination from '../../components/PropertiesPagination';
 import range from 'ramda/src/range';
@@ -169,6 +169,7 @@ const properties = () => {
   // end pagination
 
   //TODO: add excerpt to properties (missed in graphql)
+  //TODO: for mobiles move filter into modal (start display desktop filter from 1200px)
 
   useEffect(() => {
     if (!propsLoading && !propsError && propsData) {
@@ -226,33 +227,12 @@ const properties = () => {
                       !excludeIDsError &&
                       !propsError &&
                       excludeIDs &&
-                      propsData &&
-                      propsData.properties.nodes.map((property) => (
-                        <Col
-                          key={property.id}
-                          className={`${listView ? 'col-12' : ''}`}
-                        >
-                          <PropertyCard
-                            backgroundUrl={
-                              property.featuredImage.node.sourceUrl
-                            }
-                            price={property.acfProperties.price}
-                            location={property.acfProperties.location}
-                            beds={property.acfProperties.highlights.beds}
-                            bathrooms={
-                              property.acfProperties.highlights.bathrooms
-                            }
-                            tvs={property.acfProperties.highlights.tvs}
-                            sqft={property.acfProperties.highlights.sqft}
-                            authorPic={property.author.node.avatar.url}
-                            authorName={property.author.node.name}
-                            date={property.date}
-                            slug={property.slug}
-                            excerpt={property.excerpt}
-                            large={listView}
-                          />
-                        </Col>
-                      ))}
+                      propsData && (
+                        <PropertiesCardsList
+                          propsData={propsData}
+                          listView={listView}
+                        />
+                      )}
                   </Row>
                   <Row>
                     <Col>
@@ -359,5 +339,6 @@ const SCProperties = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+    padding-top: 30px;
   }
 `;
